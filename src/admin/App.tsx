@@ -16,7 +16,6 @@ import Settings from './Settings';
 const NAV = [
   { key: '', href: '#/', label: '概要' },
   { key: 'content', href: '#/content', label: '内容' },
-  { key: 'comments', href: '#/comments', label: '评论' },
   { key: 'media', href: '#/media', label: '媒体' },
   { key: 'settings', href: '#/settings', label: '设置' },
 ];

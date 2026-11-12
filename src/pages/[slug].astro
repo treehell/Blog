@@ -2,7 +2,6 @@
 // 独立页面。template 为空是普通 Markdown 页；archives = 归档时间线；download = 发布下载页（原 download.php）。
 import Base from '../layouts/Base.astro';
 import Prose from '../components/Prose.astro';
-import Comments from '../components/Comments.astro';
 import Download from '../components/Download.astro';
 import { getSite, postUrl, formatDate, isoDate, yearOf } from '../lib/data';
 import { renderContent } from '../lib/render';
@@ -60,5 +59,4 @@ if (page.template === 'archives') {
 
   {page.template === 'download' && <Download />}
 
-  {page.template === '' && page.allow_comment === 1 && page.status === 'publish' && <Comments cid={page.cid} allow />}
 </Base>

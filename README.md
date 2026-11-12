@@ -22,7 +22,7 @@
 
 - **读文章不经过任何后端**。页面是构建时生成的静态文件，由两家 CDN 直接返回。
 - **发布 = 重新构建**。后台保存后会调用两个平台的 Deploy Hook；构建时从 `/api/export` 拉取最新内容，一两分钟后上线。
-- **评论是实时的**。滚动到评论区时才请求 `/api/comments`，不占首屏。
+- **评论区目前已关闭**。组件和接口仍在仓库里（`src/components/Comments.astro`、`/api/comments`），恢复方法见该文件顶部注释。
 - **数据只有一份**，都在 Cloudflare。EdgeOne 侧没有数据库，它的 `/api/*` 原样转发到 Cloudflare。
 
 ## 首屏

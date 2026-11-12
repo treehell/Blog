@@ -1,4 +1,6 @@
 ---
+// 【当前未启用】评论区已从文章页和独立页面移除。要恢复：在 src/pages/archives/[slug].astro 和 src/pages/[slug].astro 里
+// 重新 import 并放回 <Comments cid={...} allow={...} />，再在 src/admin/App.tsx 的 NAV 里加回「评论」。
 // 评论是全站唯一需要读者侧实时数据的部分：滚动到附近时才请求 /api/comments，不占首屏。
 interface Props {
   cid: number;

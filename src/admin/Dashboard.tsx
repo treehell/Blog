@@ -49,8 +49,6 @@ export default function Dashboard() {
               ['已发布文章', stats.posts],
               ['草稿', stats.drafts],
               ['独立页面', stats.pages],
-              ['评论', stats.comments],
-              ['待审核', stats.pendingComments],
             ].map(([label, n]) => (
               <Card key={label} padding={16}>
                 <Text variant="footnote" tone="secondary" as="div">{label}</Text>
@@ -63,15 +61,6 @@ export default function Dashboard() {
               {stats.recent.map((c) => (
                 <ListRow key={c.cid} label={c.title || '（无标题）'} secondaryLabel={`${c.type === 'page' ? '页面' : '文章'} · ${fmtTime(c.modified)}`} value={STATUS_LABEL[c.status]} disclosure onSelect={() => go(`/write/${c.type}/${c.cid}`)} />
               ))}
-            </ListSection>
-            <ListSection header="最新评论">
-              {stats.recentComments.length ? (
-                stats.recentComments.map((c) => (
-                  <ListRow key={c.coid} label={`${c.author}：${c.text.slice(0, 60)}`} secondaryLabel={`${c.title ?? ''} · ${fmtTime(c.created)}`} value={STATUS_LABEL[c.status]} disclosure onSelect={() => go('/comments')} />
-                ))
-              ) : (
-                <ListRow label="还没有评论" disabled />
-              )}
             </ListSection>
           </List>
         </>
