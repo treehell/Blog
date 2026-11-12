@@ -19,8 +19,8 @@ ADMIN_USER = "admin"
 [[d1_databases]]
 binding = "DB"
 database_name = "treemoe-blog"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "47ae5571-3dee-4b2d-9059-59e1309770eb"
 
 [[r2_buckets]]
 binding = "BUCKET"
-bucket_name = "your-r2-bucket"
+bucket_name = "treemoe"
