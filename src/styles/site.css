@@ -207,7 +207,10 @@ textarea.input { min-height: 110px; resize: vertical; line-height: 1.6; }
 /* ---------- 页脚 ---------- */
 .site-footer { margin-top: 40px; padding: 24px var(--lg-margin) 28px; color: var(--lg-label-tertiary); font-size: var(--lg-text-footnote-size); text-align: center; line-height: 2; }
 .site-footer a { color: var(--lg-label-secondary); }
-.site-footer .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 16px; }
+.site-footer .links { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0 16px; }
+/* 页脚里的小图标（如公安备案徽标）：高度跟随文字，宽度按原图比例；并贴近它后面的那个链接 */
+.site-footer img { height: 1em; width: auto; flex: none; vertical-align: -0.125em; }
+.site-footer .links img { margin-inline-end: -12px; }
 .theme-switch { display: inline-flex; gap: 2px; margin-top: 8px; padding: 2px; border-radius: var(--lg-radius-capsule); background: var(--lg-fill-tertiary); }
 .theme-switch button { min-height: 30px; padding: 0 12px; border: 0; border-radius: var(--lg-radius-capsule); background: none; color: var(--lg-label-secondary); font: inherit; cursor: pointer; }
 .theme-switch button[aria-pressed='true'] { background: var(--lg-bg-grouped-2); color: var(--lg-label); }
