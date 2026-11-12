@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="页面不存在" noindex>
+  <script is:inline>
+    // 旧 Typecho 链接兜底：/archives/xxx.html、/xxx.html、/index.php/... → 新地址
+    (function () {
+      var p = location.pathname.replace(/^\/index\.php(?=\/)/, '');
+      var m = /^(\/archives\/[^/]+|\/[^/.]+)\.html$/.exec(p);
+      if (m) location.replace(m[1] + '/' + location.search + location.hash);
+      else if (p !== location.pathname) location.replace(p + location.search + location.hash);
+      else if (/^\/feed\/?$/.test(p)) location.replace('/feed.xml');
+    })();
+  </script>
+  <header class="page-head" style="padding-block:72px 16px;text-align:center">
+    <h1>404</h1>
+    <p>这个页面不存在，可能已被移动或删除。</p>
+    <p style="margin-top:20px"><a class="btn btn-primary" href="/">回到首页</a> <a class="btn" href="/search/">搜索文章</a></p>
+  </header>
+</Base>

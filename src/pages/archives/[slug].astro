@@ -1,0 +1,83 @@
+---
+import Base from '../../layouts/Base.astro';
+import Prose from '../../components/Prose.astro';
+import Comments from '../../components/Comments.astro';
+import { getSite, postUrl, metaUrl, formatDate, isoDate, shortName } from '../../lib/data';
+import { renderContent } from '../../lib/render';
+import type { Content } from '../../lib/types';
+
+export async function getStaticPaths() {
+  const site = await getSite();
+  return site.posts.map((post, i) => ({
+    params: { slug: post.slug },
+    props: { post, newer: site.posts[i - 1], older: site.posts[i + 1] },
+  }));
+}
+
+interface Props {
+  post: Content;
+  newer?: Content;
+  older?: Content;
+}
+const { post, newer, older } = Astro.props;
+const site = await getSite();
+const { html, toc, excerpt, words } = await renderContent(post);
+const { categories, tags } = site.metasOf(post.cid);
+const minutes = Math.max(1, Math.round(words / 400));
+const firstImage = /<img src="([^"]+)"[^>]*fetchpriority="high"/.exec(html)?.[1];
+const canonical = new URL(postUrl(post), site.options.site_url).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.title,
+  datePublished: isoDate(post.created),
+  dateModified: isoDate(post.modified),
+  author: { '@type': 'Person', name: site.options.author },
+  image: post.cover || firstImage || undefined,
+  mainEntityOfPage: canonical,
+};
+---
+
+<Base title={post.title} description={post.summary || excerpt} type="article" image={post.cover || firstImage} preloadImage={firstImage}>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+  <article>
+    <header class="post-head">
+      <span class="eyebrow">
+        {categories.map((c, i) => (<>{i > 0 && ' · '}<a href={metaUrl(c)}><b>{shortName(c.name)}</b></a></>))}
+      </span>
+      <h1>{post.title}</h1>
+      <div class="post-meta">
+        <time datetime={isoDate(post.created)}>{formatDate(post.created)}</time>
+        <span>{words} 字</span>
+        <span>约 {minutes} 分钟</span>
+        {post.modified - post.created > 86400 && <span>更新于 {formatDate(post.modified)}</span>}
+      </div>
+    </header>
+    <div class="sheet">
+      <Prose html={html} />
+      {
+        tags.length > 0 && (
+          <ul class="tags">
+            {tags.map((t) => (<li><a class="chip" href={metaUrl(t)}># {shortName(t.name)}</a></li>))}
+          </ul>
+        )
+      }
+      <p class="license">
+        本文由 {site.options.author} 发布于 {formatDate(post.created)}，采用 {site.options.license || 'CC BY-NC-SA 4.0'} 许可，转载请注明出处。
+      </p>
+    </div>
+  </article>
+  {
+    toc.length > 2 && (
+      <nav class="toc" aria-label="目录">
+        <strong>目录</strong>
+        {toc.map((t) => (<a href={`#${t.id}`} data-depth={t.depth}>{t.text}</a>))}
+      </nav>
+    )
+  }
+  <nav class="neighbors" aria-label="上一篇与下一篇">
+    {older ? <a href={postUrl(older)} rel="prev"><small>上一篇</small>{older.title}</a> : <span />}
+    {newer ? <a class="next" href={postUrl(newer)} rel="next"><small>下一篇</small>{newer.title}</a> : <span />}
+  </nav>
+  <Comments cid={post.cid} allow={!!post.allow_comment} />
+</Base>

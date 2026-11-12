@@ -1,0 +1,107 @@
+---
+import '@ttqtt/liquid-glass-react/tokens.css';
+import '@ttqtt/liquid-glass-react/components.css';
+import '../styles/site.css';
+import SiteNav from '../components/SiteNav';
+import { getSite, pageUrl } from '../lib/data';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** 导航里高亮哪一项：home 或页面 slug */
+  current?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  /** 首屏最大图，提前发起请求 */
+  preloadImage?: string;
+  noindex?: boolean;
+}
+
+const site = await getSite();
+const o = site.options;
+const { title, description = o.description, current, image, type = 'website', preloadImage, noindex } = Astro.props;
+const fullTitle = title ? `${title} - ${o.title}` : `${o.title} - ${o.subtitle}`;
+const canonical = new URL(Astro.url.pathname, o.site_url || Astro.site).href;
+const links = [{ key: 'home', href: '/', label: '首页' }, ...site.navPages.map((p) => ({ key: p.slug, href: pageUrl(p), label: p.title }))];
+const cdnOrigin = (() => {
+  try {
+    return new URL(o.avatar || preloadImage || '').origin;
+  } catch {
+    return '';
+  }
+})();
+const footerLinks = (o.footer_html || '').split('\n').filter(Boolean);
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="zh-CN" data-lg-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {o.keywords && <meta name="keywords" content={o.keywords} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#f0f0f5" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title ?? o.title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={o.title} />
+    {image && <meta property="og:image" content={image} />}
+    {o.favicon && <link rel="icon" href={o.favicon} />}
+    <link rel="alternate" type="application/rss+xml" title={o.title} href="/feed.xml" />
+    {cdnOrigin && <link rel="preconnect" href={cdnOrigin} />}
+    {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
+    <script is:inline>
+      // 在首次绘制前确定主题，避免深色用户先看到一帧浅色
+      (function () {
+        var d = document.documentElement, m = matchMedia('(prefers-color-scheme: dark)');
+        function saved() { try { return localStorage.getItem('theme'); } catch (e) { return null; } }
+        function apply() {
+          var s = saved(), t = s === 'light' || s === 'dark' ? s : m.matches ? 'dark' : 'light';
+          d.dataset.lgTheme = t; d.style.colorScheme = t;
+          var n = document.querySelectorAll('.lg-tabbar [data-lg-theme]');
+          for (var i = 0; i < n.length; i++) n[i].dataset.lgTheme = t;
+          dispatchEvent(new Event('themechange'));
+        }
+        window.__theme = { get: function () { return saved() || 'auto'; }, set: function (v) { try { v === 'auto' ? localStorage.removeItem('theme') : localStorage.setItem('theme', v); } catch (e) {} apply(); }, apply: apply };
+        apply(); m.addEventListener('change', apply);
+      })();
+    </script>
+    <script type="speculationrules" is:inline set:html={JSON.stringify({ prerender: [{ where: { and: [{ href_matches: '/*' }, { not: { href_matches: '/admin/*' } }, { not: { href_matches: '/api/*' } }, { not: { href_matches: '/*.xml' } }] }, eagerness: 'moderate' }] })} />
+  </head>
+  <body class="site">
+    <header class="site-header">
+      <a class="brand" href="/">
+        {o.avatar && <img src={o.avatar} alt="" width="32" height="32" decoding="async" />}
+        <span>{o.title}</span>
+      </a>
+    </header>
+    <SiteNav client:idle links={links} current={current} />
+    <script is:inline>window.__theme.apply();</script>
+    <main class="wrap">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      {footerLinks.length > 0 && <div class="links" set:html={footerLinks.join('')} />}
+      <div>&copy; 2025-{year} {o.author} · <a href="/feed.xml">RSS</a></div>
+      <div class="theme-switch" role="group" aria-label="外观">
+        <button type="button" data-theme="auto">自动</button>
+        <button type="button" data-theme="light">浅色</button>
+        <button type="button" data-theme="dark">深色</button>
+      </div>
+    </footer>
+    <script is:inline>
+      (function () {
+        var b = document.querySelectorAll('.theme-switch button');
+        function mark() { for (var i = 0; i < b.length; i++) b[i].setAttribute('aria-pressed', String(b[i].dataset.theme === __theme.get())); }
+        for (var i = 0; i < b.length; i++) b[i].onclick = function () { __theme.set(this.dataset.theme); mark(); };
+        mark();
+      })();
+    </script>
+  </body>
+</html>

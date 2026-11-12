@@ -1,0 +1,24 @@
+---
+// 后台是一个独立的单页应用，只在浏览器里渲染；不参与前台的样式裁剪，也不影响前台体积。
+import Admin from '../admin/App';
+---
+
+<!doctype html>
+<html lang="zh-CN" data-lg-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>博客后台</title>
+    <script is:inline>
+      (function () {
+        var m = matchMedia('(prefers-color-scheme: dark)');
+        function a() { document.documentElement.dataset.lgTheme = m.matches ? 'dark' : 'light'; }
+        a(); m.addEventListener('change', a);
+      })();
+    </script>
+  </head>
+  <body class="admin">
+    <Admin client:only="react" />
+  </body>
+</html>

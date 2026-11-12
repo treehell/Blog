@@ -1,0 +1,153 @@
+---
+// 评论是全站唯一需要读者侧实时数据的部分：滚动到附近时才请求 /api/comments，不占首屏。
+interface Props {
+  cid: number;
+  allow: boolean;
+}
+const { cid, allow } = Astro.props;
+---
+
+<section class="comments" id="comments" data-cid={cid}>
+  <h2>评论</h2>
+  <div class="group" data-list><p class="muted">评论加载中…</p></div>
+  {
+    allow ? (
+      <form class="form" data-form novalidate>
+        <p class="muted" data-replying hidden style="padding:0" />
+        <div class="row">
+          <input class="input" name="author" placeholder="昵称" required maxlength="40" autocomplete="nickname" aria-label="昵称" />
+          <input class="input" name="mail" type="email" placeholder="邮箱（不公开）" required maxlength="100" autocomplete="email" aria-label="邮箱" />
+          <input class="input" name="url" type="url" placeholder="网站（可选）" maxlength="200" autocomplete="url" aria-label="网站" />
+        </div>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <textarea class="input" name="text" placeholder="写点什么…" required maxlength="2000" aria-label="评论内容" />
+        <div class="form-foot">
+          <span data-status role="status" />
+          <button class="btn btn-primary" type="submit">发表评论</button>
+        </div>
+      </form>
+    ) : (
+      <p class="muted">本文已关闭评论。</p>
+    )
+  }
+</section>
+
+<script>
+  interface Item { coid: number; parent: number; author: string; url: string; text: string; created: number; is_owner: number }
+
+  const root = document.querySelector<HTMLElement>('.comments');
+  if (root) {
+    const cid = root.dataset.cid!;
+    const list = root.querySelector<HTMLElement>('[data-list]')!;
+    const form = root.querySelector<HTMLFormElement>('[data-form]');
+    const status = root.querySelector<HTMLElement>('[data-status]');
+    const replying = root.querySelector<HTMLElement>('[data-replying]');
+    let parent = 0;
+
+    const el = <K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string) => {
+      const n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text !== undefined) n.textContent = text; // 评论一律按纯文本输出
+      return n;
+    };
+    const safeUrl = (u: string) => (/^https?:\/\//i.test(u) ? u : '');
+
+    function node(c: Item, child: boolean) {
+      const wrap = el('div', child ? 'comment child' : 'comment');
+      wrap.id = `comment-${c.coid}`;
+      wrap.append(el('span', 'avatar', (c.author.trim()[0] || '?').toUpperCase()));
+      const body = el('div');
+      const who = el('div', 'who');
+      const url = safeUrl(c.url);
+      if (url) {
+        const a = el('a', '', c.author);
+        a.href = url;
+        a.target = '_blank';
+        a.rel = 'noopener nofollow ugc';
+        who.append(a);
+      } else who.append(el('span', '', c.author));
+      if (c.is_owner) who.append(el('span', 'badge', '博主'));
+      const t = el('time', '', new Date(c.created * 1000).toLocaleDateString('zh-CN'));
+      who.append(t);
+      body.append(who, el('p', 'text', c.text));
+      if (form) {
+        const r = el('button', 'reply', '回复');
+        r.type = 'button';
+        r.onclick = () => {
+          parent = c.parent || c.coid;
+          replying!.hidden = false;
+          replying!.textContent = `回复 ${c.author} · `;
+          const cancel = el('button', 'reply', '取消');
+          cancel.type = 'button';
+          cancel.onclick = () => { parent = 0; replying!.hidden = true; };
+          replying!.append(cancel);
+          form.querySelector<HTMLTextAreaElement>('textarea')!.focus();
+        };
+        body.append(r);
+      }
+      wrap.append(body);
+      return wrap;
+    }
+
+    function render(items: Item[]) {
+      list.textContent = '';
+      if (!items.length) return void list.append(el('p', 'muted', '还没有评论，来抢沙发吧。'));
+      const top = items.filter((c) => !c.parent);
+      for (const c of top) {
+        list.append(node(c, false));
+        for (const r of items.filter((x) => x.parent === c.coid)) list.append(node(r, true));
+      }
+    }
+
+    async function load() {
+      try {
+        const res = await fetch(`/api/comments?cid=${cid}`);
+        if (!res.ok) throw new Error(String(res.status));
+        render(((await res.json()) as { comments: Item[] }).comments);
+      } catch {
+        list.textContent = '';
+        list.append(el('p', 'muted', '评论暂时无法加载。'));
+      }
+    }
+
+    const io = new IntersectionObserver((e) => {
+      if (e.some((x) => x.isIntersecting)) { io.disconnect(); load(); }
+    }, { rootMargin: '600px' });
+    io.observe(root);
+
+    if (form) {
+      // 记住昵称等，下次免填
+      try {
+        const saved = JSON.parse(localStorage.getItem('commenter') || '{}');
+        for (const k of ['author', 'mail', 'url']) if (saved[k]) (form.elements.namedItem(k) as HTMLInputElement).value = saved[k];
+      } catch { /* ignore */ }
+
+      form.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+        if (!data.author.trim() || !data.text.trim() || !/^\S+@\S+\.\S+$/.test(data.mail)) {
+          status!.textContent = '请填写昵称、有效邮箱和内容';
+          return;
+        }
+        const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+        btn.disabled = true;
+        status!.textContent = '提交中…';
+        try {
+          const res = await fetch('/api/comments', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ ...data, cid: Number(cid), parent }) });
+          const json = (await res.json()) as { ok?: boolean; status?: string; error?: string };
+          if (!res.ok || !json.ok) throw new Error(json.error || '提交失败');
+          try { localStorage.setItem('commenter', JSON.stringify({ author: data.author, mail: data.mail, url: data.url })); } catch { /* ignore */ }
+          (form.elements.namedItem('text') as HTMLTextAreaElement).value = '';
+          parent = 0;
+          replying!.hidden = true;
+          status!.textContent = json.status === 'approved' ? '已发表' : '已提交，审核通过后显示';
+          if (json.status === 'approved') load();
+        } catch (err) {
+          status!.textContent = (err as Error).message;
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    }
+  }
+</script>

@@ -1,0 +1,35 @@
+{
+  "name": "treemoe-blog",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.3.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/postbuild.mjs",
+    "preview": "wrangler pages dev dist --port 8788",
+    "migrate": "node scripts/migrate-typecho.mjs",
+    "db:init:local": "wrangler d1 execute treemoe-blog --local --file=db/schema.sql && wrangler d1 execute treemoe-blog --local --file=db/seed.sql",
+    "db:init:remote": "wrangler d1 execute treemoe-blog --remote --file=db/schema.sql && wrangler d1 execute treemoe-blog --remote --file=db/seed.sql",
+    "deploy:cf": "npm run build && wrangler pages deploy dist",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.4.2",
+    "@ttqtt/liquid-glass-react": "^0.0.2",
+    "astro": "^5.18.2",
+    "marked": "^18.2.0",
+    "purgecss": "^7.0.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "shiki": "^4.6.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.160.1"
+  }
+}

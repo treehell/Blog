@@ -1,0 +1,56 @@
+---
+// 首页与 /page/N/ 共用
+import Base from '../layouts/Base.astro';
+import PostList from './PostList.astro';
+import { getSite, metaUrl, shortName } from '../lib/data';
+import { coverOf } from '../lib/render';
+
+interface Props {
+  page: number;
+}
+const { page } = Astro.props;
+const site = await getSite();
+const size = Math.max(1, Number(site.options.page_size) || 8);
+const total = Math.max(1, Math.ceil(site.posts.length / size));
+const posts = site.posts.slice((page - 1) * size, page * size);
+const first = page === 1;
+const lcp = first && posts[0] ? coverOf(posts[0]) : '';
+const href = (n: number) => (n === 1 ? '/' : `/page/${n}/`);
+---
+
+<Base title={first ? undefined : `第 ${page} 页`} current="home" preloadImage={lcp || undefined}>
+  {
+    first ? (
+      <section class="hero">
+        <h1>{site.options.title}</h1>
+        <p>{site.options.subtitle} · {site.options.description}</p>
+        <ul class="chips">
+          {site.categories.filter((c) => c.count).map((c) => (
+            <li>
+              <a class="chip" href={metaUrl(c)}>
+                {shortName(c.name)} <small>{c.count}</small>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ) : (
+      <header class="page-head">
+        <h1>全部文章</h1>
+        <p>第 {page} / {total} 页</p>
+      </header>
+    )
+  }
+  <h2 class="sr-only">文章列表</h2>
+  <div style="margin-top:20px">
+    <PostList posts={posts} feature={first} />
+  </div>
+  {
+    total > 1 && (
+      <nav class="pager" aria-label="分页">
+        {page > 1 ? <a class="btn" href={href(page - 1)} rel="prev">上一页</a> : <span />}
+        {page < total ? <a class="btn" href={href(page + 1)} rel="next">下一页</a> : <span />}
+      </nav>
+    )
+  }
+</Base>

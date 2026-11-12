@@ -1,0 +1,467 @@
+{
+  "generated": 1794460901,
+  "options": {
+    "title": "树萌",
+    "subtitle": "技术与生活的随笔日记",
+    "description": "兴趣使然的个人小站",
+    "keywords": "blog,旅游,编程,传记,杂谈,二次元",
+    "site_url": "https://www.treemoe.cn",
+    "author": "tree",
+    "avatar": "https://oss.treemoe.cn/icon/yui.webp",
+    "favicon": "https://oss.treemoe.cn/icon/favicon.ico",
+    "page_size": "8",
+    "license": "CC BY-NC-SA 4.0",
+    "comment_moderation": "0",
+    "footer_html": "<a href=\"https://beian.miit.gov.cn/\" target=\"_blank\" rel=\"noopener\">冀ICP备2026001893号-1</a>\n<a href=\"https://beian.mps.gov.cn/#/query/webSearch?code=13102802000493\" target=\"_blank\" rel=\"noreferrer noopener\">冀公网安备13102802000493号</a>\n<a href=\"https://icp.gov.moe/?keyword=20252080\" target=\"_blank\" rel=\"noopener\">萌ICP备案20252080号</a>\n<a href=\"https://moe.tmoe.cc\" target=\"_blank\" rel=\"noopener\">网站探针</a>\n<a href=\"https://www.travellings.cn/go.html\" target=\"_blank\" rel=\"noopener\">开往</a>\n<a href=\"/sitemap.xml\">网站地图</a>"
+  },
+  "contents": [
+    {
+      "cid": 1,
+      "type": "post",
+      "title": "欢迎使用 Typecho",
+      "slug": "start",
+      "text": "如果您看到这篇文章,表示您的 blog 已经安装成功.",
+      "summary": "",
+      "cover": "",
+      "status": "publish",
+      "template": "",
+      "sort_order": 0,
+      "allow_comment": 1,
+      "created": 1757927777,
+      "modified": 1757927777,
+      "comments": 3
+    },
+    {
+      "cid": 2,
+      "type": "page",
+      "title": "关于",
+      "slug": "start-page",
+      "text": "欢迎来到我的小站，仅限于纪念意义。\n![yui][1]\n# *原神启动！*<sub><sub><sub>——寄送认证</sub></sub></sub>\n\n  [1]: https://oss.treemoe.cn/icon/yui_icon.webp",
+      "summary": "",
+      "cover": "",
+      "status": "publish",
+      "template": "",
+      "sort_order": 4,
+      "allow_comment": 1,
+      "created": 1757927760,
+      "modified": 1773666200,
+      "comments": 0
+    },
+    {
+      "cid": 3,
+      "type": "post",
+      "title": "基于cloudflare的R2图片托管测试&图片分享",
+      "slug": "3",
+      "text": "![江之岛海岸][1]\n![江之岛瞭望塔][2]\n![富士山河口湖][3]\n![东京塔][4]\n![镰仓高校前][5]\n\n\n  [1]: https://oss.treemoe.cn/img/img_IMG_0056.webp\n  [2]: https://oss.treemoe.cn/img/img_IMG_0066.webp\n  [3]: https://oss.treemoe.cn/img/img_IMG_0220.webp\n  [4]: https://oss.treemoe.cn/img/img_IMG_20250114_180529.webp\n  [5]: https://oss.treemoe.cn/img/img_IMG_20250115_152822_1.webp",
+      "summary": "图片测试",
+      "cover": "",
+      "status": "publish",
+      "template": "",
+      "sort_order": 0,
+      "allow_comment": 1,
+      "created": 1763735400,
+      "modified": 1771570782,
+      "comments": 0
+    },
+    {
+      "cid": 5,
+      "type": "post",
+      "title": "基于Kazumi的动漫采集",
+      "slug": "Kazumi",
+      "text": "[GITHUB下载页面Kazumi][1]\n先根据设备下载对应版本，并且安装。在规则设置里面导入规则即可。\n本人自用的源，抓自樱花动漫(wedm)。\n如下：\n\n    kazumi://eyJhcGkiOiIxIiwidHlwZSI6IjEiLCJuYW1lIjoieWhkbSIsInZlcnNpb24iOiIxLjAiLCJtdWxpU291cmNlcyI6dHJ1ZSwidXNlV2VidmlldyI6dHJ1ZSwidXNlTmF0aXZlUGxheWVyIjp0cnVlLCJ1c2VQb3N0IjpmYWxzZSwidXNlTGVnYWN5UGFyc2VyIjpmYWxzZSwiYWRCbG9ja2VyIjpmYWxzZSwidXNlckFnZW50IjoiIiwiYmFzZVVSTCI6Imh0dHBzOi8vd3d3LnZkbTYuY29tLyIsInNlYXJjaFVSTCI6Imh0dHBzOi8vd3d3LnZkbTYuY29tL3NlYXJjaC8tLS0tLS0tLS0tLS0tLmh0bWw/d2Q9QGtleXdvcmQiLCJzZWFyY2hMaXN0IjoiLy9kaXZbMV0vZGl2L2RpdlsxXS9kaXYvZGl2L2RpdlsyXS91bC8vbGkiLCJzZWFyY2hOYW1lIjoiLy9kaXZbMl0vaDQvYSIsInNlYXJjaFJlc3VsdCI6Ii8vcFs1XS9hWzJdIiwiY2hhcHRlclJvYWRzIjoiLy9kaXZbMl0vZGl2WzJdL2RpdlsxXS9kaXZbMV0vZGl2L2RpdlsyXS8vZGl2IiwiY2hhcHRlclJlc3VsdCI6Ii8vdWwvbGkvYSIsInJlZmVyZXIiOiIifQ==\n\n![规则设置][2]\n*抓取原理解释*：首先我们要有一个能使用的动漫网址。设置中BaseURL即为主源站，SearchRUL是指我们在执行搜索操作以后网址显示的内容，根据不同模板的使用其中@keyword的类型也不一样。\n\n剩下的就是去打开浏览器的开发者模式进行Xpath框架的复制，要找到里面的搜索列表元素。因为Kazumi软件内已经内置了一定程度的网站结构解析，所以说我们的任务也就可以量化为帮助Kazumi解析网站的内容资源分布。\n\n仅举一例其中的ChapterRoads来说，我们需要找到剧集路径的Xpath结构，我们搜索完成后，随便进入一个剧集的详情页，右键检查集数所存在的结构即可\n\n`/html/body/div[5]/div[1]/div[2]/div[2]/div[2]/ul/li[1]`\n\n剩下的的操作也同理。\n![完整Xpath路径提取][3]\n\n\n  [1]: https://github.com/Predidit/Kazumi/releases\n  [2]: https://oss.treemoe.cn/img/screenshot2026-01-29%20165704.webp\n  [3]: https://oss.treemoe.cn/img/srceenshot2026-01-29%20171515.webp",
+      "summary": "Kazumi的软件使用以及简单Xpath提取使用",
+      "cover": "",
+      "status": "publish",
+      "template": "",
+      "sort_order": 0,
+      "allow_comment": 1,
+      "created": 1769678340,
+      "modified": 1771570774,
+      "comments": 0
+    },
+    {
+      "cid": 6,
+      "type": "page",
+      "title": "历程",
+      "slug": "sort",
+      "text": "",
+      "summary": "",
+      "cover": "",
+      "status": "publish",
+      "template": "archives",
+      "sort_order": 1,
+      "allow_comment": 1,
+      "created": 1769920200,
+      "modified": 1769920252,
+      "comments": 0
+    },
+    {
+      "cid": 7,
+      "type": "post",
+      "title": "本站所有图片均使用WEBP，全局分流透过Edgeone+Cloudflare实现",
+      "slug": "WEBP-Edgeone-Cloudflare",
+      "text": "境内（国内）指向解析腾讯云边缘加速，境外（全球）指向Cloudflare的回源优选。\n![pingdog][1]\n\n\n  [1]: https://oss.treemoe.cn/img/www.treemoe.cn_Ping_test.webp",
+      "summary": "灵感来自技术爬爬虾的视频",
+      "cover": "",
+      "status": "publish",
+      "template": "",
+      "sort_order": 0,
+      "allow_comment": 1,
+      "created": 1770012720,
+      "modified": 1771570768,
+      "comments": 0
+    },
+    {
+      "cid": 8,
+      "type": "post",
+      "title": "轻音少女圣地巡礼",
+      "slug": "8",
+      "text": "***前情提要：这次作者从京都出发，直达彦根，单程总计花费1170+460=1630JPY（约合人民币73）。***\n首先呢就是丰乡小学校教学楼了。\n![教学楼][1]\n再往里走，我们就可以见到楼梯拐角上面的兔子和乌龟了。\n![一楼楼梯][2]\n从一楼楼梯向上走，停在二楼的走廊位置，也是勾起了我当年看番的回忆。\n![走廊][3]\n接着上楼，就是我们最熟悉的三楼楼梯口（<del>著名事故发生地</del>）。\n[PicGrid]\n![1][4]\n![2][5]\n![3][6]\n[/PicGrid]\n接下来登场的就是部室门口。虽然没有真的在这里学习过，但是总有一种熟悉的陌生感。\n![音乐室门口][7]\n那么我们不熟悉的室内场景我们就一(仔)带(细)而(观)过(察)【并不是】\n[PicGrid]\n![4][8]\n![5][9]\n![6][10]\n[/PicGrid]\n你别说，从这里的窗户望出去还别有一番风味，雪景限定这块。\n![部室窗][11]\n那么最后再补充一张武道馆的照片，其实是大讲堂来的啦。\n总而言之，由于最近小高的发言，看来是很难再去下一回了。毕竟签证费用是之前的5倍啊，我有十分甚至九分的悲伤 :( 。虽然作者已经是时隔两年第二次重游，说实话根本没有什么变化呢。虽然有支付手段了，可惜已经买不到当年第一次的震撼了。\n***哦，对了，买了个阿梓喵的绘马花了我1000JPY(悲)。***\n***图片待补充***\n![武道馆(并不是)][12]\n\n\n  [1]: https://oss.treemoe.cn/img/k-on/MVIMG_20260123_125725.webp\n  [2]: https://oss.treemoe.cn/img/k-on/MVIMG_20260123_125122.webp\n  [3]: https://oss.treemoe.cn/img/k-on/MVIMG_20260123_124948.webp\n  [4]: https://oss.treemoe.cn/img/k-on/MVIMG_20260123_124821.webp\n  [5]: https://oss.treemoe.cn/img/k-on/MVIMG_20260123_124710.webp\n  [6]: https://oss.treemoe.cn/img/k-on/MVIMG_20260123_124352.webp\n  [7]: https://oss.treemoe.cn/img/k-on/MVIMG_20260123_124247.webp\n  [8]: https://oss.treemoe.cn/img/k-on/MVIMG_20260123_123829.webp\n  [9]: https://oss.treemoe.cn/img/k-on/MVIMG_20260123_123932.webp\n  [10]: https://oss.treemoe.cn/img/k-on/MVIMG_20260123_123449.webp\n  [11]: https://oss.treemoe.cn/img/k-on/MVIMG_20260123_124107.webp\n  [12]: https://oss.treemoe.cn/img/k-on/MVIMG_20260123_133501.webp",
+      "summary": "二周目",
+      "cover": "https://oss.treemoe.cn/img/k-on/poster.webp",
+      "status": "publish",
+      "template": "",
+      "sort_order": 0,
+      "allow_comment": 1,
+      "created": 1770302760,
+      "modified": 1772028708,
+      "comments": 0
+    },
+    {
+      "cid": 9,
+      "type": "post",
+      "title": "本站基本建成网络监控面板 cf-vps-monitor",
+      "slug": "9",
+      "text": "> 项目名称：cf-vps-monitor 项目作者：kadidalax [github url=\"https://github.com/kadidalax/cf-vps-monitor\"]VPS 监控面板 (Cloudflare Worker + D1 版) - 部署指南这是一个部署在 Cloudflare Workers 上的简单 VPS 监控面板，使用 Cloudflare D1 数据库存储数据。本指南将引导你通过 Cloudflare 网页控制面板完成部署，无需使用命令行工具。\n\n----------\n\n[collapsible-panel title=\"部署步骤（摘自github）\"]\n***先决条件***\n一个 Cloudflare 账户。\n***部署步骤***\n1. 创建 D1 数据库\n你需要一个 D1 数据库来存储面板数据（服务器列表、API 密钥、监控数据等）。\n登录 Cloudflare 控制面板。\n在左侧菜单中，找到并点击 存储和数据库。\n在下拉菜单中，选择 D1 SQL 数据库。\n点击 创建数据库。\n为数据库命名（例如 vps-monitor-db），然后点击 创建。\n2. 创建并配置 Worker\n接下来，创建 Worker 并将代码部署上去。\n在左侧菜单中，点击 计算(Workers)，选择 Workers & Pages。\n在概览页面，点击 创建。\n选择 Start with Hello World!点击开始使用。\n为你的 Worker 命名（例如 vps-monitor-worker），确保名称可用。\n点击 部署。\n部署完成后，点击 编辑代码 进入 Worker 编辑器。\n删除编辑器中现有的所有代码。\n打开本仓库的 worker.js 文件，复制其全部内容。\n将复制的代码粘贴到 Cloudflare Worker 编辑器中。\n点击编辑器右上角的 部署 按钮。\n3. 添加环境变量\n在 设置 → 变量和机密 中添加以下环境变量，以增加安全性：\n可选变量名：USERNAME，类型：密钥， 值：任意随机字符串\n可选变量名：PASSWORD，类型：密钥， 值：任意随机字符串\n变量名：JWT_SECRET，类型：密钥， 值：任意30位左右的随机字符串\n添加完保存并部署\n4. 绑定 D1 数据库到 Worker\nWorker 需要访问你之前创建的 D1 数据库。\n在 Worker 的管理页面（编辑代码页面上方有 Worker 名称，点击它可以返回管理页面），选择 绑定 标签页。\n选择D1数据库。\n在 变量名称 处输入 DB (必须大写)。\n在 D1 数据库 下拉菜单中，选择你之前创建的数据库 (例如 vps-monitor-db)。\n点击 部署。\n重要！初始化数据库： 复制你的Worker URL到浏览器，后面加上/api/init-db，如vps-monitor.abo-vendor289.workers.dev/api/init-db，打开此链接后会看到 {\"success\":true,\"message\":\"数据库初始化完成\"} 即表明数据库已准备完毕。\n5. 设置触发频率（检测网站用）\n在 Worker 的管理页面选择 设置 标签页。\n在设置页面中，选择 触发事件 子菜单。\n点击添加，选择Cron触发器。\n选择计划，执行 Worker 的频率选择小时，下面的框填入1（即每整点检测一次网站）。\n点击添加。\n6. 访问面板\n部署和绑定完成后，你的监控面板应该可以通过 Worker 的 URL 访问了。\n在设置页面你会看到一个 .workers.dev 的 URL，例如 vps-monitor.abo-vendor289.workers.dev。\n在浏览器中打开这个 URL，你应该能看到监控面板的前端界面。\n***使用面板***\n1. 初始登录\n访问你的 Worker URL。\n点击页面右上角的 登录 或直接访问 /login 路径 (例如 https://vps-monitor.abo-vendor289.workers.dev/login)。\n使用环境变量凭证或默认凭据登录：\n默认用户名: admin\n默认密码: monitor2025!\n登录后，立即修改密码！立即修改密码！立即修改密码！！！\n2. 添加服务器\n登录后台后，你应该会看到管理界面。\n找到添加服务器的选项。\n输入服务器的名称和可选的描述。\n点击 保存。\n面板会自动生成一个唯一的 服务器 ID 和 API 密钥，后台可以随时查看，部署 Agent 时需要用到。\n3. 部署 Agent (探针)\nAgent 是一个需要在你的 VPS 上运行的脚本，用于收集状态信息并发送回面板。\n有两种方式安装Agent脚本：\n第一种是直接从后台复制带有参数的命令一键安装（推荐）\n第二种是：下载脚本并运行：\n\n    wget -O cf-vps-monitor.sh https://raw.githubusercontent.com/kadidalax/cf-vps-monitor/main/cf-vps-monitor.sh && chmod +x cf-vps-monitor.sh && ./cf-vps-monitor.sh\n\n或者下载脚本并运行：\n\n    curl -O https://raw.githubusercontent.com/kadidalax/cf-vps-monitor/main/cf-vps-monitor.sh && chmod +x cf-vps-monitor.sh && ./cf-vps-monitor.sh\n\n安装需要 服务器ID API密钥 和你的 worker网址\n可以在后台点击 查看密钥 来获取上述三个参数\n按照提示输入安装完成后，Agent 会开始定期向你的面板发送数据。你应该能在面板上看到对应服务器的状态更新。\n4. Agent 管理\n安装脚本本身也提供了如管理功能：安装服务、卸载服务、查看状态、查看日志、停止服务、重启服务、修改配置等\n5. 添加检测网站\n登录后台后，你应该会看到管理界面。\n点击添加监控网站。\n输入网站名称（可选）和网站URL 如(https://example.com)。\n点击保存。\n6. 配置Telegram 通知\nBotFather创建bot并获取Bot Token。\n@userinfobot获取自己的ID。\n将上述两项分别填入。\n启用通知，点击保存Telegram设置后会受到一条测试通知，说明配置正确。\n7. 配置自定义背景和透明度\n找一张好看的背景图。\n上传到图床，得到该图的链接（如：https://i.111666.best/image/QbF51RYyzcHFTBnOhICxdY.jpg ）\n将此链接填入背景图片URL框，并勾选 启用自定义背景。\n调整 面透明度 滑块。\n点击 保存背景设置\n[/collapsible-panel]\n部署成功以后就可以在work里面编辑代码来修改前端页面，通过网络与性能测试，原带的几个诸如：\n\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\"\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css\"\n    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js\" \n\n严重的影响了网站（国内）的打开速度，于是乎我就开始了CDN的寻找与替换。\n一开始本来是想上传到自己的OSS上面套CDN，bootstrap.min.css和bootstrap.bundle.min.js替换的都很顺利，打开速度也加快不少，不过到了bootstrap-icons.css竟然里面还包含了fonts文件如.woff此类的，于是我wget了这几类文件并在本地修改，结果发现由于缓存和上传等多方面的原因，图标无法正确显示。首先我检测了源站R2的css发现上传依旧是：\n\n    @font-face {\n      font-display: block;\n      font-family: \"bootstrap-icons\";\n      src: url(\"./fonts/bootstrap-icons.woff2?2820a3852bdb9a5832199cc61cec4e65\") format(\"woff2\"),\n    url(\"./fonts/bootstrap-icons.woff?2820a3852bdb9a5832199cc61cec4e65\") format(\"woff\");}\n本地看却是：\n\n    @font-face {\n      font-display: block;\n      font-family: \"bootstrap-icons\";\n      src: url(\"https://oss.treemoe.cn/side/fonts/bootstrap-icons.woff2\") format(\"woff2\"),\n    url(\"https://oss.treemoe.cn/side/fonts/bootstrap-icons.woff\") format(\"woff\");}\n后面就开始清除cloudeflare的源站CDN发现无法引用字体文件，改成网络直达和本地目录结构均是，最后还是选择使用国内的bootstrap-icons.css,链接如下：https://cdn.staticfile.org/bootstrap-icons/1.11.3/font/bootstrap-icons.css\n至此，这个监控面板才落下帷幕。\n\n----------\n\n[window type=\"red\" title=\"摘要\"]\n大家可点按网页下方的[网站探针][1]直达页面。\n哦对了，关于cf路由的优选，我直接套用2x.nz即[***二叉树树***][2]的优选，最近不知道为什么总是喜欢看他。\n[/window]\n![部署完成][3]\n\n\n  [1]: https://moe.233595.xyz/\n  [2]: https://2x.nz\n  [3]: https://oss.treemoe.cn/img/2026-02-12-125015.webp",
+      "summary": "基于Cloudflare的works",
+      "cover": "",
+      "status": "publish",
+      "template": "",
+      "sort_order": 0,
+      "allow_comment": 1,
+      "created": 1770872040,
+      "modified": 1771570747,
+      "comments": 0
+    },
+    {
+      "cid": 10,
+      "type": "post",
+      "title": "Pycharm永久换源代码",
+      "slug": "Pycharm",
+      "text": "***方法：通过命令配置***\n运行以下命令将默认源设置为阿里云镜像：\n\n    pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/\n\n***根据操作系统不同，编辑或创建对应的配置文件：***\n\nLinux/MacOS: 配置文件路径：~/.pip/pip.conf\n\n    [global]\n    index-url = https://mirrors.aliyun.com/pypi/simple/\n    [install]\n    trusted-host = mirrors.aliyun.com",
+      "summary": "环境改变",
+      "cover": "",
+      "status": "publish",
+      "template": "",
+      "sort_order": 0,
+      "allow_comment": 1,
+      "created": 1770981120,
+      "modified": 1771570738,
+      "comments": 0
+    },
+    {
+      "cid": 11,
+      "type": "page",
+      "title": "友链",
+      "slug": "friends",
+      "text": "我的朋友们\n-----\n\n[friend-card name=\"可执行程序の天境小屋🥝\" ico=\"https://q1.qlogo.cn/g?b=qq&nk=2667174454&s=640\" url=\"https://blog.hanta2011.top\"]我不是在摆烂，我只想做一个安静的方块人。[/friend-card]\n[friend-card name=\"时歌的博客\" ico=\"https://www.lapis.cafe/avatar.webp\" url=\"https://www.lapis.cafe\"]理解以真实为本，但真实本身并不会自动呈现[/friend-card]\n[friend-card name=\"青序栈\" ico=\"https://www.qixz.cn/avatar.avif\" url=\"https://www.qixz.cn\"]青序成栈·向简而生[/friend-card]\n[friend-card name=\"安知鱼\" ico=\"https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg\" url=\"https://blog.anheyu.com\"]生活明朗，万物可爱[/friend-card]\n\n网站组织\n----\n\n[friend-card name=\"萌国ICP备案\" ico=\"https://icp.gov.moe/images/gov.svg\" url=\"https://icp.gov.moe\"]是一种次元中的爱好，文化的展现。[/friend-card]\n[friend-card name=\"开往\" ico=\"https://www.travellings.cn/assets/travelling.png\" url=\"https://www.travellings.cn/train\"]Go to another sites.[/friend-card]\n[tabs]\n[tab title=\"申请友链\"]发送至***ms@tmoe.cc***的信箱即可[/tab]\n[tab title=\"申请要求\"]域名必须真实有效<br>需要包含ico信息<br>还有称呼和介绍<br>不得违反国家相关法律[/tab]\n[/tabs]",
+      "summary": "",
+      "cover": "",
+      "status": "publish",
+      "template": "",
+      "sort_order": 2,
+      "allow_comment": 1,
+      "created": 1770981540,
+      "modified": 1783933968,
+      "comments": 0
+    },
+    {
+      "cid": 12,
+      "type": "post",
+      "title": "关于1Panel面板typecho的伪静态配置和开启问题",
+      "slug": "PATHINFO",
+      "text": "核心原因\n----\n\nPanel默认的Nginx PHP解析配置不支持PATHINFO，而Typecho的伪静态机制依赖PATHINFO才能正确解析index.php/action/xxx这类地址 。\n在1Panel后台“设置伪静态”通常只是导入了重写规则（rewrite ^(.*)$ /index.php$1 last;），但没有同时修改PHP的location解析块。Nginx收到伪静态后的URL（如/index.php/action/options-permalink）时，找不到能处理/路径参数的PHP配置，所以直接返回了404。\n![只开启伪静态][1]\n(PS:可以在网站配置中直接用typecho的预设，如图的方案)\n\n解决步骤\n----\n\n那我们应该怎么开启真正的伪静态呢？\n我们知道1Panel使用的是OpenResty + 容器化PHP环境。关键点是：OpenResty作为前端代理，与标准Nginx配置不同。\n那我们着手编辑OpenResty这个前端的配置文件即可，将配置文件里的找到 ***location ~ \\.php$*** 这一段，完全替换。使用代码如下：\n\n     # PHP解析配置 - 支持PATHINFO（解决Typecho伪静态问题）\n        location ~ \\.php(.*)$ {\n            fastcgi_pass 127.0.0.1:9000; \n            fastcgi_index index.php; \n            include fastcgi_params; \n            # PATHINFO核心配置\n            set $path_info \"\"; \n            set $real_script_name $fastcgi_script_name; \n            if ($fastcgi_script_name ~ \"^(.+?\\.php)(/.+)$\" ) {\n                set $real_script_name $1; \n                set $path_info $2; \n            }\n            fastcgi_param SCRIPT_FILENAME $document_root$real_script_name; \n            fastcgi_param SCRIPT_NAME $real_script_name; \n            fastcgi_param PATH_INFO $path_info; \n            fastcgi_param DOCUMENT_ROOT $document_root; \n        }\n\n配置好的截图\n------\n\n![配置][2]\n最后再去后台>设置>永久链接>打开是否使用地址重写功能就不会报错404了。\n\n虽然作者的初衷是为了sitemap,但是请记住,不打开伪静态是没办法使用[网站地图][3]的(悲啊)\n\n\n  [1]: https://oss.treemoe.cn/img/2026-02-14-124719.webp\n  [2]: https://oss.treemoe.cn/img/2026-02-14-124804.webp\n  [3]: https://typecho-fans.github.io/plugins/Sitemap/",
+      "summary": "PATHINFO和typecho的静态配置解读",
+      "cover": "",
+      "status": "publish",
+      "template": "",
+      "sort_order": 0,
+      "allow_comment": 1,
+      "created": 1771045140,
+      "modified": 1771750003,
+      "comments": 0
+    },
+    {
+      "cid": 13,
+      "type": "post",
+      "title": "DAY1穷游,初识关西(后编)",
+      "slug": "JP1",
+      "text": "***观前提要，此篇文章撰写于两年前请谨慎观看(从树信洞移植的)***\n非常好非常好，哥们前一晚从某地飞往青岛胶东国际机场转机，申请了中转住宿(免费的两个人住一间，没同伴的我亏了)下面附上我的机票。\n![机票][1]\n于是乎哥们直接起飞。当然飞到一半的时候P2哥们醒来竟然到了韩国上空，有某人心心念念的泡菜和火坤面。P3是我没怎么见过的群岛地形，感觉新奇，索性就拍了下来。噢，这张照片也是快到它关西国际机场(KIA)了。\n![群岛][2]\n这下是过边境审查了，不过查我那个哥们啥也没问，全程示意我扫码递护照和按指纹。但是还好关西机场入境人不是很多，大概是十多分钟(排了一两个人就过去了)。一出行李海关哥们就直接看到了:火影忍者(受不了了二次元)。问我为什么很糊，因为我是在电梯上拍的，广角。难受的是，后来我准备坐车了，谷歌地图推荐的南海特急。到天下茶屋换御筋堂线坐到本町站6号口走路过去。但是，注意，这里是但是了。我第一回想的是直接去买票以为可以扫个码啥的，就直接错过上扶梯之前的711ATM(因为用它取要收取手续费，惨啊)。结果你猜怎么着哥们南海电车不能扫码，隔壁JR才行(至于为什么不选乘JR，贵!)南海换乘1680YEN,JR得2000+YEN。\n![naruto][3]\n后来，我又折返回去取了5000YEN，手续费14.75CNY(心在滴血!!!)。嗯，又因为航班到那里已经当地时间下午快五点了，折腾完天已经黑了，电车上又挤，风景什么的就别提了。按我说，不愧是从机场出来，哪里的人都有啊，什么韩国人，国人，欧洲人，车厢里真的活像一锅大杂烩。(另外韩国人那个中分欧巴头还是太显眼了)最后的章节，哥们以为坐错车下去换乘就一笔带过了。好在有惊无险的找到了酒店，英文还是本当上手的捏。办完手续，哥们准备一脚迈上去，结果忽视了地上写的“土足禁止”，就是不能穿自己的鞋子上去，后来经过工作人员的礼貌提醒，哥们才换上了一次性拖鞋(当时哥们恨不得找一个地缝钻进去，sh*t!)最后安顿好东西之后，就去我看到门前的711去觅食(请记住它)基本每个早晨哥们都得从那里出发。买了个肉酱米饭还有一瓶饮料一瓶水差不多44CNY左右(P4).然后端回旁边的酒店吃，香的嘞!\n\n![难视][4]\n\n那么明天介绍一下酒店状况还有我跟711店员的<del>爱恨情仇</del>吧。\n{后记:你问我为什么不在旅行之中写出这篇游记emmm,我觉得事后写挺好，毕竟算是复盘了，总有点再去一遍的感觉，而且总会有新的感悟吧。}\n\n\n----------\n\n\n后后记：当年作者的文笔不像作者本人，谢谢。\n\n\n  [1]: https://oss.treemoe.cn/img/old/1/IMG_20260217_012519_1771262748059edit.webp\n  [2]: https://oss.treemoe.cn/img/old/1/IMG_20240117_152859.webp\n  [3]: https://oss.treemoe.cn/img/old/1/IMG_20240117_171935.webp\n  [4]: https://oss.treemoe.cn/img/old/1/wx_camera_1705489847323.webp",
+      "summary": "朝花夕拾",
+      "cover": "https://oss.treemoe.cn/img/old/1/IMG_20240118_080543.webp",
+      "status": "publish",
+      "template": "",
+      "sort_order": 0,
+      "allow_comment": 1,
+      "created": 1705425360,
+      "modified": 1771570702,
+      "comments": 0
+    },
+    {
+      "cid": 14,
+      "type": "post",
+      "title": "DAY2下雨CityWalk篇 (瞎逛)",
+      "slug": "JP2",
+      "text": "书接上回，我是发现了，去了这么多天，那家常光顾的711是一张照片都没有啊。遥想17号刚到那里的时候，哥们拿完东西结账;记得是个印度小黑妹兼职的?(难道是日本黑人?)问我'袋は利用りますか?’，哥们一下就蒙了，没说出话来，然后她用英文跟我说bag,这下哥们完全懂了。然后又因为买的有便当可以加热，人家后来就直接hit(指着微波炉说)。最后就没有最后了，拿回酒店嘎嘎炫(特制肉酱 难视)好吧，我又去谷歌地图上面嫖了一张照片，这下可以瞥见一点了，箭头是酒店方向不到10M.\n![711][1]\n酒店里放送的电视，几把复杂的基本都是汉字，看得懂捏。\n![TV][2]\n新的一天，众所周知，因为这天下雨，我就随便去逛逛因为哥们时间也多，又或者说哥们根本就没有旅行计划就是过来体验异国文化的(没错就是这样)。在经历过在711买早餐，酒店吃早餐之后，我还是决定出去了(一开始想的是窝房间里)。然后我就决定去心斋桥看一看，走路过去，我住的酒店离得很近，就是心斋桥往北一点的商业街。照片如下:\n![Shinzaibashi][3]\n后来又觉得无聊得慌，毕竟我不喜欢购物，哥们的钱包也瘪。所以我准备去通天阁看一看，乘御筋堂从难波站出发坐到动物园前站。乘车情况如下，竟然有女性专用车厢，不吹不黑，人家的确是素质非常好，每次都是等车上的人先下了才上，而且车厢里比较安静，也没人吃喝啥的。但是啊，楼梯上下靠左，扶梯还是靠右留左边，给哥们CPU整烧了。\n![御筋堂线][4]\n在去通天阁之前，哥们去吃了顿饭，叫什么天下一品，写个中华料理。因为起的早，711吃的也少，哥们准备直接开造。进去果不其然就是每个座位前面一个点餐的机器，有中文但是不多，最后靠着微信翻译，点了个“唐扬拉面”，ye就是炸鸡拉面。一半甚至有十分感，好像点成浓汤版了哥们边吃边灌水，后面走的时候要考。我本来带了一瓶水进去，是在罗森买的气泡水。吃完忘拿了(损100JPY)吃完去结账，本来看见两个收银台，好像是支持Alipay结果哥们还是现金(社恐死了)。食物如下：\n![天下一品][5]\n走了一会儿，就到了通天阁，后来又去旁边的寺里面看了看，其实没啥，就是跟国内佛教差不多的感觉，就是细节不一样。{两年后编：其实是走人家冢也就是坟里面去了}\n![通天阁][6]\n18号能写的比较少，的确是因为天气原因基本没去哪里。就先到这里吧。\n***下期天气转好（多云），第一次去兴趣点，尽情期待。***\n\n\n----------\n依旧朝花夕拾，作者两年后改写如是说。\n\n  [1]: https://oss.treemoe.cn/img/old/2/2026-02-17%20125020.webp\n  [2]: https://oss.treemoe.cn/img/old/2/wx_camera_1705533666722.webp\n  [3]: https://oss.treemoe.cn/img/old/2/IMG_20240118_124538.webp\n  [4]: https://oss.treemoe.cn/img/old/2/wx_camera_1705541461159.webp\n  [5]: https://oss.treemoe.cn/img/old/2/wx_camera_1705545847202.webp\n  [6]: https://oss.treemoe.cn/img/old/2/IMG_20240118_122306.webp",
+      "summary": "依旧朝花夕拾",
+      "cover": "https://oss.treemoe.cn/img/old/2/poster.webp",
+      "status": "publish",
+      "template": "",
+      "sort_order": 0,
+      "allow_comment": 1,
+      "created": 1705554120,
+      "modified": 1771570689,
+      "comments": 0
+    },
+    {
+      "cid": 15,
+      "type": "post",
+      "title": "DAY3GO丰乡;小学旧校舍",
+      "slug": "JP3",
+      "text": "今天是比较兴奋的一天，前一天玩上刚查的路线，还带着天气转好的希望，哥们早早的就睡了。说白就是圣地巡礼，嗨嗨嗨，离大阪最近的感兴趣的好像就只有这个了。相信各位已经从上期的封面看出来了没错，就是K-ON!上午哥们早起，八点起床洗漱，去赶上早班车:(虽然已经不早了)从本町站乘坐御筋堂线至JR大阪，乘坐京都线至JR彦根站，换乘近江铁道的本地车。下面附上车票(手里那个绿茶加浓版，不好喝)。\n![ticket][1]\n然后本地的电车，没有售票机。还是人工售票的干活，最后就是直接发车差两分钟的时候上了车(不久就发车了)下面用JR坐车的情景图代替一下。\n![JR][2]\n在路途中碰到两个欧巴，还有两个本地人。不过人均社恐，没有什么交流就是了，我一个人去的显得很孤独啊啊啊啊啊。\n![toyosato][3]\n车站牌子(真是浓浓的二次元气息)不过别说，真的一切一切跟动漫里太像了，无论是街上还是乡里，感觉就是突破了次元壁捏。\n![校门][4]\n到了到了，全体目光向我看齐，我是**二次元!\n![黑阿梓][5]\n(补一张回去的时候看到的图)\n这个雕像有十分甚至九分像(就是外部墙面在装修是真的难受了，拍不出动漫的感觉)\n***请移步至二周目***[post url=\"https://www.treemoe.cn/archives/8/\"]\n![mio][6]\n(这是mio的蓝白碗罢，多谢款待)\n然后哥们就换鞋进去了，我靠部室真的真的太还原了，只有一些小细节不一样而已(下面两图为黑板和白板上的内容)\n[PicGrid]\n![黑板][7]\n![白板][8]\n[/PicGrid]\n参观感想带过，我就去旁边的纪念品商店看了看。我去，真的收藏了主角团全员的乐器，手办，甚至是T恤都有(狂喜)。\n[PicGrid]\n![组图1][9]\n![组图2][10]\n![组图3][11]\n[/PicGrid]\n紧接着前往二楼。\n![miku-yui][12]\n我去，初音...未...唯来......!\n\n\n----------\n\n\n后面大抵是买了个纪念品镜子1800JPY,后面晃荡晃荡的就往车站走。\n![toyosato-haji][13]\n我从车站旁边的面包店买了一瓶午后的红茶，以及若干可乐饼(牛肉)。坐在这种乡下的小车站里，享受着暖洋洋的日光，悠悠的等着电车，颇有点动漫里的感觉。怎么说呢，就是有一种脱离现实的的虚迷感。\n\n\n  [1]: https://oss.treemoe.cn/img/old/3/IMG_20240119_092928.webp\n  [2]: https://oss.treemoe.cn/img/old/3/IMG_20240119_100443_1.webp\n  [3]: https://oss.treemoe.cn/img/old/3/IMG_20240119_124440.webp\n  [4]: https://oss.treemoe.cn/img/old/3/IMG_20240119_113001.webp\n  [5]: https://oss.treemoe.cn/img/old/3/IMG_20240119_123427.webp\n  [6]: https://oss.treemoe.cn/img/old/3/IMG_20240119_114226.webp\n  [7]: https://oss.treemoe.cn/img/old/3/IMG_20240119_113638.webp\n  [8]: https://oss.treemoe.cn/img/old/3/IMG_20240119_114127.webp\n  [9]: https://oss.treemoe.cn/img/old/3/IMG_20240119_195759.webp\n  [10]: https://oss.treemoe.cn/img/old/3/IMG_20240119_120242.webp\n  [11]: https://oss.treemoe.cn/img/old/3/IMG_20240119_120322.webp\n  [12]: https://oss.treemoe.cn/img/old/3/IMG_20240119_120605.webp\n  [13]: https://oss.treemoe.cn/img/old/3/IMG_20240121_111738.webp",
+      "summary": "旧事重提系列",
+      "cover": "https://oss.treemoe.cn/img/old/3/poster.webp",
+      "status": "publish",
+      "template": "",
+      "sort_order": 0,
+      "allow_comment": 1,
+      "created": 1705642320,
+      "modified": 1773038026,
+      "comments": 0
+    },
+    {
+      "cid": 16,
+      "type": "post",
+      "title": "你是否曾经好奇过漫画翻译,从现在一起来跟我开始吧",
+      "slug": "comic",
+      "text": "我们都知道，汉化的流程首先简单分为，翻译和嵌字。对于一些有规模的汉化组来说，它可以细化为翻译-校对-润色-涂白-嵌字等几个步骤。本人作为一个个人汉化组来说适用于简单的两步骤，也就是翻译和嵌字。\n\n1.图源\n----\n\n第一件事就是图源。推荐图源自己购买或者等待富哥捐赠，下面展示自己从dlsite上面买的生肉。\n![dlsite][1]\n\n2.初步翻译\n------\n\n下一步我们就要用到一个神奇的小软件，来进行初步（框内框外）翻译。\n[github url=\"https://github.com/LabelPlus/LabelPlus\"]\n![LabelPlus][2]\n图中仅举一页作为例子。使用的时候先去标注框内框外(Label模式)也就是打上标签，接着就可以开始翻译(录入模式)，最后校对。当然一个人的话完成前两个足矣。\n当我们在LabelPlus中新建翻译的时候会有一个.TXT文件，里面记录着我们打标签的X/Y轴的信息以及对应位置的翻译，请妥善保存后面对于提高效率有着大用。\n\n3.PS插件(JavaScript)\n------------------\n\n接着我们就可以开始打开图源进行文字插入和涂白操作，涂白操作相信大家都会，但是关于翻译文字的插入，我们就可以用到LabelPlus作者开发的PS插件，一键匹配和导入。\n[github url=\"https://github.com/LabelPlus/PS-Script\"]\n![Script][3]\n设置好字体，大小，以及项目自定义文件就可以开始嵌字了，虽然说是免去了打字的烦恼，但是字体位置和分段还是得手动细调(哎，苦逼的汉化)。当然后面也会遇到不同的问题，如框外拟声词翻译，背景遮挡元素过多，甚至有时候需要重绘也不是不存在。\n\n4.涂白和嵌字\n-------\n\n下面展示一张结尾页所需的图层，推荐在复制图层上更改，一是要与原图作为比较，二是要理解作者要表达的意思。这也能体现出为什么汉化组的出图比较快了，每个人分工，各环节甚至可以同时进行，比如涂白和翻译校对，后面是嵌字和润色。\n![PSwork][4]\n***遥想当年一个人爆肝4天50页的翻译，还好猫豆腐老师是四格漫画一类的，不然我感觉7天一个人未必能完成。总的来说，那些为爱发电的汉化组大家有能力还是要多多支持，毕竟大家都是为了我们的热爱而努力。***\n\n  [1]: https://oss.treemoe.cn/img/comic/2026-02-19-134514.webp\n  [2]: https://oss.treemoe.cn/img/comic/2026-02-19-133649.webp\n  [3]: https://oss.treemoe.cn/img/comic/2026-02-19-133910.webp\n  [4]: https://oss.treemoe.cn/img/comic/2026-02-19-134054.webp",
+      "summary": "汉化全流程",
+      "cover": "https://oss.treemoe.cn/img/comic/onimai34_ja_001.webp",
+      "status": "publish",
+      "template": "",
+      "sort_order": 0,
+      "allow_comment": 1,
+      "created": 1771480320,
+      "modified": 1771749876,
+      "comments": 0
+    },
+    {
+      "cid": 17,
+      "type": "post",
+      "title": "Cloudflare存储桶优雅管理项目;R2 Web的使用以及部署",
+      "slug": "r2-web",
+      "text": "项目地址：\n-----\n\n[github url=\"https://github.com/vikiboss/r2-web\"]\n[collapsible-panel title=\"项目优势(摘自github)\"]\n打开浏览器就能用，跨平台零成本\n拖拽、粘贴上传 + 图片压缩，省流量省时间\nPWA 支持，装到桌面像原生应用\n纯前端实现，数据不经过第三方服务器\n[/collapsible-panel]\n\n1.CORS策略\n--------\n\n部署很简单，我们如果不需要私有部署的话可以直接使用项目作者的cloudflare的Pages。即***r2.viki.moe***或者本站搭建的***https://r2.233595.xyz***。本站搭建的经过CF优选，国内访问速度更快(下文的CORS配置遵循本站，如果想使用原作者配置将注释内换成***https://r2.viki.moe***即可)\nPS:***简单来说就是添加了谁的CORS策略就访问谁的网站***。\n![CORS][3]\n想要直接使用需要我们进入到存储桶的设置——>CORS 策略——>添加，将默认内容替换为以下代码：\n\n    [\n      {\n        \"AllowedOrigins\": [\n          \"https://r2.233595.xyz\"/*如果进行自有page部署请填入自己的域名*/        ],\n        \"AllowedMethods\": [\n          \"GET\",\n          \"POST\",\n          \"PUT\",\n          \"DELETE\",\n          \"HEAD\"\n        ],\n        \"AllowedHeaders\": [\n          \"authorization\",\n          \"content-type\",\n          \"x-amz-content-sha256\",\n          \"x-amz-date\",\n          \"x-amz-copy-source\"\n        ],\n        \"MaxAgeSeconds\": 86400\n      }\n    ]\n\n接下来我将具体介绍如何获取账户 ID（Account ID）、访问密钥 ID（Access Key ID）、秘密访问密钥（Secret Access Key）、存储桶名称（Bucket Name）和自定义域名（可选）。自定义域名可太好了，我给R2源站套了一层CDN加速，这下总算不用上传到cloudflare——>复制链接——>替换源站域名了。\n\n2.Account ID&存储桶名称\n------------------\n\n首先账户ID在存储和数据库——>R2对象存储——>概述里面的Account Details——>Account ID就是(存储桶名称也请使用此页数据)：\n![R2账户ID][4]\n\n3.创建User API令牌\n--------------\n\n下一步我们要点击账户ID上面的API Tokens——>{}Manage\n进入API配置页面,点击***创建User API令牌***：\n![API][5]\n名称随意,权限推荐选为管理员读和写,其他不用动,接着创建User API令牌。\n![User API][6]\n\n4.访问密钥ID&秘密访问密钥\n---------------\n\n创建完成后即可复制***访问密钥ID***和***机密访问密钥***并填入访问密钥 ID（Access Key ID）、秘密访问密钥（Secret Access Key）就可以了。如果你对于源站做了CDN加速，将自定义域名填入你的加速域名即可,如:\n`https://cdn.你的域名.xxx`\n至此大功告成。\n![Keys][7]\n\n\n  [3]: https://oss.treemoe.cn/img/r2/214621_1b5f42.png\n  [4]: https://oss.treemoe.cn/img/r2/211435_fa98a8.png\n  [5]: https://oss.treemoe.cn/img/r2/211918_2b9de6.png\n  [6]: https://oss.treemoe.cn/img/r2/212307_28d45a.png\n  [7]: https://oss.treemoe.cn/img/r2/212726_ad74f9.png",
+      "summary": "解决免费10G痛点,纯WEB实现",
+      "cover": "",
+      "status": "publish",
+      "template": "",
+      "sort_order": 0,
+      "allow_comment": 1,
+      "created": 1771594260,
+      "modified": 1771749587,
+      "comments": 0
+    },
+    {
+      "cid": 18,
+      "type": "post",
+      "title": "Kazumi镜像计划，附带自定义规则",
+      "slug": "Kazumi-download",
+      "text": "[window type=\"red\" title=\"项目官网\"]https://kazumi.app/[/window]\n项目地址:\n-----\n\n[github url=\"https://github.com/Predidit/Kazumi\"]\n本贴的目的是致力于使用Kazumi的普通用户门槛降低，包括下载等各方面。\n\n[点击此处进入下载独立页面][1]\n------------\n下面开始介绍实现方法。简要来说就是使用cloudflare的works对于release页面进行每日抓取，后面存入R2私有存储桶，透过clouflare进行加速（当然我会优选域名，实测应该有10MB/S）。但是为了在typecho里面引用，我又单独设计了一个独立页面的下载模板，虽然初心是想<del>直接插入文章里面</del>,总之应该是解决了国内很多用户接触无法访问github或者下载过慢等问题。OK，回到最开始，拉取新的release后，会检测Tag是否相同，不一致的话就会更新（应该算是一种基于works的API的感觉）。实际部署需要用到CMD的wrangler本地编译后上传，步骤待补充。\n\n项目结构：\n\n>     kazumi-worker/\n>     ├─ package.json\n>     ├─ wrangler.toml\n>     └─ src/\n>        └─ index.js\n\n然后附赠一个本人抓取的自定义规则，导入Kazumi即可。\nkazumi://eyJhcGkiOiI1IiwidHlwZSI6ImFuaW1lIiwibmFtZSI6IndlZG0iLCJ2ZXJzaW9uIjoiMC4xYmV0YSIsIm11bGlTb3VyY2VzIjp0cnVlLCJ1c2VXZWJ2aWV3Ijp0cnVlLCJ1c2VOYXRpdmVQbGF5ZXIiOnRydWUsInVzZVBvc3QiOmZhbHNlLCJ1c2VMZWdhY3lQYXJzZXIiOmZhbHNlLCJhZEJsb2NrZXIiOmZhbHNlLCJ1c2VyQWdlbnQiOiIiLCJiYXNlVVJMIjoiaHR0cHM6Ly93d3cuNTJmY2RtLmNvbS8iLCJzZWFyY2hVUkwiOiJodHRwczovL3d3dy41MmZjZG0uY29tL3NlYXJjaC8tLS0tLS0tLS0tLS0tLmh0bWw/d2Q9QGtleXdvcmQiLCJzZWFyY2hMaXN0IjoiLy9kaXZbMl0vZGl2WzJdLy9kaXYiLCJzZWFyY2hOYW1lIjoiLy9kaXYvZGl2L2RpdlsyXS9hIiwic2VhcmNoUmVzdWx0IjoiLy9kaXZbNF0vYSIsImNoYXB0ZXJSb2FkcyI6Ii8vZGl2WzVdL2RpdlsxXS9kaXZbMl0vZGl2WzJdL2RpdlsyXS8vdWwiLCJjaGFwdGVyUmVzdWx0IjoiLy9saS8vYSIsInJlZmVyZXIiOiIiLCJhbnRpQ3Jhd2xlckNvbmZpZyI6eyJlbmFibGVkIjpmYWxzZSwiY2FwdGNoYVR5cGUiOjEsImNhcHRjaGFJbWFnZSI6IiIsImNhcHRjaGFJbnB1dCI6IiIsImNhcHRjaGFCdXR0b24iOiIifX0=\n  [1]: /kazumi-tmoe-project.html\n",
+      "summary": "typecho和cloudflare works的有机结合",
+      "cover": "",
+      "status": "publish",
+      "template": "",
+      "sort_order": 0,
+      "allow_comment": 1,
+      "created": 1775213040,
+      "modified": 1775359284,
+      "comments": 0
+    },
+    {
+      "cid": 19,
+      "type": "page",
+      "title": "Kazumi镜像计划",
+      "slug": "kazumi-tmoe-project",
+      "text": "",
+      "summary": "",
+      "cover": "",
+      "status": "hidden",
+      "template": "download",
+      "sort_order": 3,
+      "allow_comment": 1,
+      "created": 1775299980,
+      "modified": 1775300301,
+      "comments": 0
+    }
+  ],
+  "metas": [
+    {
+      "mid": 1,
+      "type": "category",
+      "name": "默认分类-初代部署时间",
+      "slug": "default",
+      "description": "只是一个默认分类",
+      "sort_order": 1
+    },
+    {
+      "mid": 2,
+      "type": "tag",
+      "name": "本人相关-个人经历与故事分享",
+      "slug": "传记",
+      "description": "",
+      "sort_order": 0
+    },
+    {
+      "mid": 3,
+      "type": "tag",
+      "name": "游戏人生-端游推荐与游玩体验",
+      "slug": "树萌游戏",
+      "description": "",
+      "sort_order": 0
+    },
+    {
+      "mid": 4,
+      "type": "tag",
+      "name": "杂谈随想-无主题漫谈与生活碎碎念",
+      "slug": "树萌",
+      "description": "",
+      "sort_order": 0
+    },
+    {
+      "mid": 6,
+      "type": "tag",
+      "name": "二次元-动漫取景与ACG文化",
+      "slug": "树萌的动漫小屋",
+      "description": "",
+      "sort_order": 0
+    },
+    {
+      "mid": 7,
+      "type": "category",
+      "name": "旅行日志-树萌的游记",
+      "slug": "travel",
+      "description": "圣地巡礼,动漫",
+      "sort_order": 2
+    },
+    {
+      "mid": 8,
+      "type": "category",
+      "name": "生活杂谈-日常·胡思乱想",
+      "slug": "life",
+      "description": "生活碎碎念",
+      "sort_order": 3
+    },
+    {
+      "mid": 9,
+      "type": "category",
+      "name": "编程技术-语言折腾笔记",
+      "slug": "code",
+      "description": "技术分享,平台实战,树萌Code",
+      "sort_order": 4
+    }
+  ],
+  "relationships": [
+    [
+      1,
+      1
+    ],
+    [
+      14,
+      7
+    ],
+    [
+      14,
+      2
+    ],
+    [
+      13,
+      7
+    ],
+    [
+      13,
+      2
+    ],
+    [
+      10,
+      9
+    ],
+    [
+      9,
+      9
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      5,
+      9
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      3,
+      8
+    ],
+    [
+      17,
+      9
+    ],
+    [
+      16,
+      8
+    ],
+    [
+      16,
+      4
+    ],
+    [
+      16,
+      6
+    ],
+    [
+      12,
+      9
+    ],
+    [
+      8,
+      7
+    ],
+    [
+      8,
+      2
+    ],
+    [
+      8,
+      6
+    ],
+    [
+      15,
+      7
+    ],
+    [
+      15,
+      2
+    ],
+    [
+      15,
+      6
+    ],
+    [
+      18,
+      9
+    ]
+  ]
+}

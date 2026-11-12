@@ -1,0 +1,9 @@
+# 复制为 .dev.vars 供本地预览使用（wrangler pages dev 自动读取）。线上请在 Pages 控制台配置同名变量。
+ADMIN_USER=admin
+ADMIN_PASSWORD=换成你的后台密码
+SESSION_SECRET=换成32位以上的随机字符串
+# 可选
+# DEPLOY_HOOKS=https://api.cloudflare.com/client/v4/pages/webhooks/deploy_hooks/xxx,https://EdgeOne的部署钩子地址
+# R2_PUBLIC_HOSTS=pub-xxxxxxxx.r2.dev
+# PROXY_SECRET=与EdgeOne侧一致的随机字符串
+# ALLOWED_ORIGINS=https://www.treemoe.cn

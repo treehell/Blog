@@ -1,0 +1,109 @@
+---
+// 发布下载页：数据来自一个返回 { ok, release: { tag_name, published_at, assets: [...] } } 的接口
+// （旧站是 Kazumi 镜像 Worker）。构建时先渲染一份，浏览器再通过 /api/release 刷新成最新版本。
+import { getSite } from '../lib/data';
+
+const site = await getSite();
+const api = (site.options.download_api || 'https://kazumi.tmoe.cc').replace(/\/$/, '');
+
+interface Asset { name: string; size?: number; download_url?: string; browser_download_url?: string }
+interface Release { name?: string; tag_name?: string; published_at?: string; assets?: Asset[] }
+
+let release: Release | null = null;
+try {
+  const res = await fetch(`${api}/latest`, { signal: AbortSignal.timeout(8000) });
+  const json = (await res.json()) as { ok?: boolean; release?: Release };
+  if (json.ok && json.release) release = json.release;
+} catch {
+  /* 构建机访问不到接口时留空，由浏览器端加载 */
+}
+---
+
+<section data-download data-initial={JSON.stringify(release)}>
+  <p class="muted" data-dl-status style="padding-inline:0">正在获取最新版本…</p>
+  <div class="dl-filter" data-dl-filter></div>
+  <div class="group" data-dl-list></div>
+</section>
+
+<script>
+  interface Asset { name: string; size?: number; download_url?: string; browser_download_url?: string }
+  interface Release { name?: string; tag_name?: string; published_at?: string; assets?: Asset[] }
+
+  const root = document.querySelector<HTMLElement>('[data-download]');
+  if (root) {
+    const status = root.querySelector<HTMLElement>('[data-dl-status]')!;
+    const filter = root.querySelector<HTMLElement>('[data-dl-filter]')!;
+    const list = root.querySelector<HTMLElement>('[data-dl-list]')!;
+    const LABEL: Record<string, string> = { all: '全部', android: 'Android', windows: 'Windows', macos: 'macOS', ios: 'iOS', linux: 'Linux', other: '其他' };
+    const ORDER = ['android', 'windows', 'macos', 'ios', 'linux', 'other'];
+    let platform = new URLSearchParams(location.search).get('platform') || 'all';
+
+    const detect = (name: string) => {
+      const n = name.toLowerCase();
+      if (n.includes('android') || n.endsWith('.apk')) return 'android';
+      if (n.includes('windows') || /\.(exe|msix|zip)$/.test(n)) return 'windows';
+      if (/macos|darwin|mac/.test(n) || /\.(dmg|pkg)$/.test(n)) return 'macos';
+      if (n.includes('ios') || n.endsWith('.ipa')) return 'ios';
+      if (n.includes('linux') || /\.(deb|rpm|appimage|tar\.gz)$/.test(n)) return 'linux';
+      return 'other';
+    };
+    const size = (b = 0) => {
+      if (b <= 0) return '未知大小';
+      const u = ['B', 'KB', 'MB', 'GB'];
+      let i = 0;
+      while (b >= 1024 && i < u.length - 1) { b /= 1024; i++; }
+      return `${b.toFixed(i ? 2 : 0)} ${u[i]}`;
+    };
+
+    function render(r: Release | null) {
+      if (!r?.assets?.length) return;
+      const assets = r.assets.map((a) => ({ ...a, platform: detect(a.name) })).sort((a, b) => ORDER.indexOf(a.platform) - ORDER.indexOf(b.platform) || (b.size || 0) - (a.size || 0));
+      const date = r.published_at ? new Date(r.published_at).toLocaleDateString('zh-CN') : '';
+      status.textContent = `最新版本 ${r.tag_name || r.name || ''}${date ? ` · 发布于 ${date}` : ''}`;
+      const present = ['all', ...ORDER.filter((p) => assets.some((a) => a.platform === p))];
+      if (!present.includes(platform)) platform = 'all';
+      filter.textContent = '';
+      for (const p of present) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'chip';
+        b.style.border = '0';
+        b.style.cursor = 'pointer';
+        b.style.font = 'inherit';
+        b.textContent = LABEL[p];
+        if (p === platform) b.setAttribute('aria-current', 'true');
+        b.onclick = () => { platform = p; render(r); };
+        filter.append(b);
+      }
+      list.textContent = '';
+      for (const a of assets) {
+        if (platform !== 'all' && a.platform !== platform) continue;
+        const href = a.download_url || a.browser_download_url;
+        if (!href || !/^https?:\/\//.test(href)) continue;
+        const row = document.createElement('div');
+        row.className = 'dl-item';
+        const name = document.createElement('div');
+        name.className = 'name';
+        name.textContent = a.name;
+        const small = document.createElement('small');
+        small.textContent = `${LABEL[a.platform]} · ${size(a.size)}`;
+        name.append(small);
+        const link = document.createElement('a');
+        link.className = 'btn btn-primary';
+        link.href = href;
+        link.rel = 'noopener';
+        link.textContent = '下载';
+        row.append(name, link);
+        list.append(row);
+      }
+    }
+
+    let initial: Release | null = null;
+    try { initial = JSON.parse(root.dataset.initial || 'null'); } catch { /* ignore */ }
+    render(initial);
+    fetch('/api/release')
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((j: { ok?: boolean; release?: Release }) => j.ok && render(j.release ?? null))
+      .catch(() => { if (!initial) status.textContent = '暂时无法获取版本信息，请稍后再试。'; });
+  }
+</script>

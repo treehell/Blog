@@ -1,0 +1,73 @@
+---
+// 站内搜索：纯前端，在 /search.json（构建时生成的标题 + 摘要 + 正文片段）里过滤，不依赖后端。
+import Base from '../layouts/Base.astro';
+import { getSite, metaUrl, shortName } from '../lib/data';
+
+const site = await getSite();
+---
+
+<Base title="搜索" current="search">
+  <header class="page-head">
+    <h1>搜索</h1>
+  </header>
+  <input class="input" type="search" id="q" placeholder="输入关键词…" autocomplete="off" aria-label="搜索文章" autofocus />
+  <ul class="group" id="results" style="margin-top:16px" aria-live="polite"></ul>
+  <h2 class="section-title">标签</h2>
+  <ul class="chips">
+    {site.tags.filter((t) => t.count).map((t) => (<li><a class="chip" href={metaUrl(t)}># {shortName(t.name)} <small>{t.count}</small></a></li>))}
+  </ul>
+</Base>
+
+<script>
+  interface Doc { t: string; u: string; s: string; d: string; b: string }
+  const input = document.getElementById('q') as HTMLInputElement;
+  const out = document.getElementById('results')!;
+  let docs: Doc[] | undefined;
+
+  async function run() {
+    const q = input.value.trim().toLowerCase();
+    history.replaceState(null, '', q ? `?q=${encodeURIComponent(q)}` : location.pathname);
+    out.textContent = '';
+    if (!q) return;
+    docs ??= await fetch('/search.json').then((r) => r.json());
+    const words = q.split(/\s+/);
+    const hits = docs!
+      .map((d) => {
+        const title = d.t.toLowerCase(), body = `${d.s} ${d.b}`.toLowerCase();
+        let score = 0;
+        for (const w of words) {
+          if (title.includes(w)) score += 3;
+          else if (body.includes(w)) score += 1;
+          else return null;
+        }
+        return { d, score };
+      })
+      .filter((x): x is { d: Doc; score: number } => !!x)
+      .sort((a, b) => b.score - a.score);
+    if (!hits.length) {
+      const li = document.createElement('li');
+      li.className = 'muted';
+      li.textContent = '没有找到相关文章';
+      return void out.append(li);
+    }
+    for (const { d } of hits) {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = d.u;
+      a.style.cssText = 'display:block;padding:12px 16px;color:inherit;text-decoration:none';
+      const t = document.createElement('strong');
+      t.textContent = d.t;
+      const s = document.createElement('div');
+      s.className = 'eyebrow';
+      s.textContent = `${d.d}${d.s ? ' · ' + d.s : ''}`;
+      a.append(t, s);
+      li.append(a);
+      out.append(li);
+    }
+  }
+
+  let timer = 0;
+  input.addEventListener('input', () => { clearTimeout(timer); timer = window.setTimeout(run, 120); });
+  const initial = new URLSearchParams(location.search).get('q');
+  if (initial) { input.value = initial; run(); }
+</script>

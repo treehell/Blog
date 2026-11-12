@@ -1,0 +1,68 @@
+---
+// 正文容器 + 正文相关的小交互（复制代码、图片放大、目录高亮）。脚本很小，延后执行，不影响首屏。
+interface Props {
+  html: string;
+}
+const { html } = Astro.props;
+---
+
+<div class="prose" set:html={html} />
+
+<script>
+  // 代码块复制
+  for (const pre of document.querySelectorAll<HTMLElement>('.prose pre')) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'copy';
+    b.textContent = '复制';
+    b.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(pre.querySelector('code')?.textContent ?? '');
+        b.textContent = '已复制';
+      } catch {
+        b.textContent = '复制失败';
+      }
+      setTimeout(() => (b.textContent = '复制'), 1600);
+    };
+    pre.append(b);
+  }
+
+  // 图片点击放大
+  document.querySelector('.prose')?.addEventListener('click', (e) => {
+    const img = e.target as HTMLElement;
+    if (!(img instanceof HTMLImageElement) || img.closest('a')) return;
+    const box = document.createElement('button');
+    box.className = 'lightbox';
+    box.setAttribute('aria-label', '关闭大图');
+    const big = new Image();
+    big.src = img.currentSrc || img.src;
+    big.alt = img.alt;
+    box.append(big);
+    const close = () => { box.remove(); removeEventListener('keydown', onKey); };
+    const onKey = (ev: KeyboardEvent) => ev.key === 'Escape' && close();
+    box.onclick = close;
+    addEventListener('keydown', onKey);
+    document.body.append(box);
+    box.focus();
+  });
+
+  // 目录跟随高亮
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a')];
+  if (links.length && matchMedia('(min-width: 1240px)').matches) {
+    const map = new Map(links.map((a) => [decodeURIComponent(a.hash.slice(1)), a]));
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const en of entries) {
+          if (!en.isIntersecting) continue;
+          links.forEach((a) => a.classList.remove('on'));
+          map.get(en.target.id)?.classList.add('on');
+        }
+      },
+      { rootMargin: '-80px 0px -70% 0px' },
+    );
+    for (const id of map.keys()) {
+      const h = document.getElementById(id);
+      if (h) io.observe(h);
+    }
+  }
+</script>

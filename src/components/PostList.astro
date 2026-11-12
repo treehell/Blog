@@ -1,0 +1,49 @@
+---
+import { getSite, postUrl, formatDate, isoDate, shortName } from '../lib/data';
+import { renderContent, coverOf } from '../lib/render';
+import type { Content } from '../lib/types';
+
+interface Props {
+  posts: Content[];
+  /** 第一篇用大图卡片（仅当它有封面时） */
+  feature?: boolean;
+}
+const { posts, feature = false } = Astro.props;
+const site = await getSite();
+const items = await Promise.all(
+  posts.map(async (p, i) => {
+    const cover = coverOf(p);
+    return {
+      p,
+      cover,
+      big: feature && i === 0 && !!cover,
+      category: site.metasOf(p.cid).categories[0],
+      summary: p.summary || (await renderContent(p)).excerpt,
+    };
+  }),
+);
+---
+
+<ul class="posts">
+  {
+    items.map(({ p, cover, big, category, summary }, i) => (
+      <li>
+        <a class:list={['card', big && 'card-feature']} href={postUrl(p)}>
+          {big && <img class="cover" src={cover} alt="" fetchpriority="high" decoding="async" />}
+          <div class="card-row">
+            <div class="card-body">
+              <span class="eyebrow">
+                {category && <b>{shortName(category.name)}</b>}
+                {category && ' · '}
+                <time datetime={isoDate(p.created)}>{formatDate(p.created)}</time>
+              </span>
+              <h2>{p.title}</h2>
+              {summary && <p>{summary}</p>}
+            </div>
+            {cover && !big && <img class="thumb" src={cover} alt="" loading={i < 3 ? 'eager' : 'lazy'} decoding="async" />}
+          </div>
+        </a>
+      </li>
+    ))
+  }
+</ul>

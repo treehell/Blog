@@ -1,0 +1,14 @@
+---
+import Home from '../../components/Home.astro';
+import { getSite } from '../../lib/data';
+
+export async function getStaticPaths() {
+  const site = await getSite();
+  const size = Math.max(1, Number(site.options.page_size) || 8);
+  const total = Math.ceil(site.posts.length / size);
+  return Array.from({ length: Math.max(0, total - 1) }, (_, i) => ({ params: { page: String(i + 2) } }));
+}
+const page = Number(Astro.params.page);
+---
+
+<Home page={page} />

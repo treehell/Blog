@@ -1,0 +1,11 @@
+---
+import MetaPage from '../../components/MetaPage.astro';
+import { getSite } from '../../lib/data';
+
+export async function getStaticPaths() {
+  const site = await getSite();
+  return site.categories.map((meta) => ({ params: { slug: meta.slug }, props: { meta } }));
+}
+---
+
+<MetaPage meta={Astro.props.meta} />

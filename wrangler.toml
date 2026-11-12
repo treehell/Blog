@@ -1,0 +1,26 @@
+# Cloudflare Pages 配置。把 database_id 和 bucket_name 换成你自己的 D1 数据库 ID 与 R2 存储桶名。
+name = "treemoe-blog"
+compatibility_date = "2026-06-01"
+pages_build_output_dir = "dist"
+
+[vars]
+# R2 对外访问的 CDN 域名：上传后返回的地址、以及正文里被替换成的域名
+CDN_BASE = "https://oss.treemoe.cn"
+# 正文里出现这些 R2 原始域名时，保存时自动替换为 CDN_BASE（逗号分隔，可留空）
+# 例如 "pub-xxxxxxxx.r2.dev,<账户ID>.r2.cloudflarestorage.com/<桶名>"
+R2_PUBLIC_HOSTS = ""
+ADMIN_USER = "admin"
+
+# 以下为密钥，不要写在这里：在 Pages 控制台「设置 → 变量和机密」里添加，或用
+#   wrangler pages secret put ADMIN_PASSWORD
+#   wrangler pages secret put SESSION_SECRET      （任意 32 位以上随机字符串）
+#   wrangler pages secret put DEPLOY_HOOKS        （两个平台的 Deploy Hook 地址，逗号分隔）
+
+[[d1_databases]]
+binding = "DB"
+database_name = "treemoe-blog"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "your-r2-bucket"

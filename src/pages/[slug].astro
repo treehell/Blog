@@ -1,0 +1,64 @@
+---
+// 独立页面。template 为空是普通 Markdown 页；archives = 归档时间线；download = 发布下载页（原 download.php）。
+import Base from '../layouts/Base.astro';
+import Prose from '../components/Prose.astro';
+import Comments from '../components/Comments.astro';
+import Download from '../components/Download.astro';
+import { getSite, postUrl, formatDate, isoDate, yearOf } from '../lib/data';
+import { renderContent } from '../lib/render';
+import type { Content } from '../lib/types';
+
+export async function getStaticPaths() {
+  const site = await getSite();
+  return site.pages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+
+interface Props {
+  page: Content;
+}
+const { page } = Astro.props;
+const site = await getSite();
+const { html, excerpt } = await renderContent(page);
+const hasBody = page.text.trim().length > 0;
+
+const years = new Map<number, Content[]>();
+if (page.template === 'archives') {
+  for (const p of site.posts) (years.get(yearOf(p.created)) ?? years.set(yearOf(p.created), []).get(yearOf(p.created))!).push(p);
+}
+---
+
+<Base title={page.title} description={page.summary || excerpt || undefined} current={page.slug} noindex={page.status === 'hidden'}>
+  <header class="page-head">
+    <h1>{page.title}</h1>
+    {page.template === 'archives' && <p>共 {site.posts.length} 篇文章</p>}
+    {page.summary && <p>{page.summary}</p>}
+  </header>
+
+  {hasBody && (<div class="sheet"><Prose html={html} /></div>)}
+
+  {
+    page.template === 'archives' && (
+      <div class="timeline">
+        {[...years].map(([year, posts]) => (
+          <section>
+            <h2>{year}</h2>
+            <ul class="group">
+              {posts.map((p) => (
+                <li>
+                  <a href={postUrl(p)}>
+                    <time datetime={isoDate(p.created)}>{formatDate(p.created, 'short')}</time>
+                    <span>{p.title}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    )
+  }
+
+  {page.template === 'download' && <Download />}
+
+  {page.template === '' && page.allow_comment === 1 && page.status === 'publish' && <Comments cid={page.cid} allow />}
+</Base>

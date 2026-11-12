@@ -1,0 +1,32 @@
+---
+// 分类页与标签页共用
+import Base from '../layouts/Base.astro';
+import PostList from './PostList.astro';
+import { getSite, metaUrl, shortName } from '../lib/data';
+import type { Meta } from '../lib/types';
+
+interface Props {
+  meta: Meta;
+}
+const { meta } = Astro.props;
+const site = await getSite();
+const posts = site.postsOf(meta.mid);
+const siblings = (meta.type === 'category' ? site.categories : site.tags).filter((m) => m.count);
+---
+
+<Base title={`${meta.type === 'category' ? '分类' : '标签'}：${shortName(meta.name)}`} description={meta.description || meta.name}>
+  <header class="page-head">
+    <h1>{shortName(meta.name)}</h1>
+    <p>{meta.name.includes('-') ? meta.name.split('-').slice(1).join('-') : meta.description} · {posts.length} 篇</p>
+    <ul class="chips">
+      {siblings.map((m) => (
+        <li>
+          <a class="chip" href={metaUrl(m)} aria-current={m.mid === meta.mid ? 'page' : undefined}>{shortName(m.name)}</a>
+        </li>
+      ))}
+    </ul>
+  </header>
+  <div style="margin-top:20px">
+    {posts.length ? <PostList posts={posts} /> : <p class="muted">这里还没有文章。</p>}
+  </div>
+</Base>
