@@ -1,7 +1,16 @@
-# Cloudflare Pages 配置。把 database_id 和 bucket_name 换成你自己的 D1 数据库 ID 与 R2 存储桶名。
+# Cloudflare Workers 配置（静态资源 + /api Worker）。
 name = "treemoe-blog"
+main = "worker/index.js"
 compatibility_date = "2026-06-01"
-pages_build_output_dir = "dist"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+# /archives/xxx 自动补成 /archives/xxx/；找不到的路径返回 dist/404.html（旧链接跳转脚本在里面）
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"
+# 只有接口请求进 Worker，页面和图片直接由静态资源返回，不计 Worker 调用次数
+run_worker_first = ["/api/*"]
 
 [vars]
 # R2 对外访问的 CDN 域名：上传后返回的地址、以及正文里被替换成的域名
@@ -11,10 +20,10 @@ CDN_BASE = "https://oss.treemoe.cn"
 R2_PUBLIC_HOSTS = ""
 ADMIN_USER = "admin"
 
-# 以下为密钥，不要写在这里：在 Pages 控制台「设置 → 变量和机密」里添加，或用
-#   wrangler pages secret put ADMIN_PASSWORD
-#   wrangler pages secret put SESSION_SECRET      （任意 32 位以上随机字符串）
-#   wrangler pages secret put DEPLOY_HOOKS        （两个平台的 Deploy Hook 地址，逗号分隔）
+# 以下为密钥，不要写在这里：在 Worker 的「设置 → 变量和机密」里添加，或用
+#   npx wrangler secret put ADMIN_PASSWORD
+#   npx wrangler secret put SESSION_SECRET      （任意 32 位以上随机字符串）
+#   npx wrangler secret put DEPLOY_HOOKS        （两个平台的 Deploy Hook 地址，逗号分隔）
 
 [[d1_databases]]
 binding = "DB"

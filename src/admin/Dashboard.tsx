@@ -38,7 +38,7 @@ export default function Dashboard() {
         <GlassButton variant="glassProminent" onClick={() => go('/write/post/new')}>写文章</GlassButton>
       </PageHead>
       {error && <Banner tone="error" title="加载失败" message={error} />}
-      {stats && !stats.env.r2 && <Banner tone="warning" title="未绑定 R2 存储桶" message="上传与媒体库不可用。请在 Cloudflare Pages 项目里绑定 BUCKET。" />}
+      {stats && !stats.env.r2 && <Banner tone="warning" title="未绑定 R2 存储桶" message="上传与媒体库不可用。请在 Cloudflare Worker 里绑定 BUCKET。" />}
       {stats && stats.env.deployHooks === 0 && (
         <Banner tone="info" title="未配置部署钩子" message="发布内容后不会自动重新构建。设置 DEPLOY_HOOKS 后，保存即自动上线。" />
       )}

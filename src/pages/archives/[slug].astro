@@ -37,7 +37,7 @@ const jsonLd = {
 };
 ---
 
-<Base title={post.title} description={post.summary || excerpt} type="article" image={post.cover || firstImage} preloadImage={firstImage}>
+<Base title={post.title} description={post.summary || excerpt} type="article" image={post.cover || firstImage} preloadImage={firstImage} toc={toc}>
   <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
   <article>
     <header class="post-head">
@@ -66,14 +66,6 @@ const jsonLd = {
       </p>
     </div>
   </article>
-  {
-    toc.length > 2 && (
-      <nav class="toc" aria-label="目录">
-        <strong>目录</strong>
-        {toc.map((t) => (<a href={`#${t.id}`} data-depth={t.depth}>{t.text}</a>))}
-      </nav>
-    )
-  }
   <nav class="neighbors" aria-label="上一篇与下一篇">
     {older ? <a href={postUrl(older)} rel="prev"><small>上一篇</small>{older.title}</a> : <span />}
     {newer ? <a class="next" href={postUrl(newer)} rel="next"><small>下一篇</small>{newer.title}</a> : <span />}

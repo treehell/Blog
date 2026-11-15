@@ -27,15 +27,15 @@ const SITE_OPTIONS = {
   comment_moderation: '0',
   footer_html: [
     '<a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">冀ICP备2026001893号-1</a>',
-    '<a href="https://beian.mps.gov.cn/#/query/webSearch?code=13102802000493" target="_blank" rel="noreferrer noopener">冀公网安备13102802000493号</a>',
-    '<a href="https://icp.gov.moe/?keyword=20252080" target="_blank" rel="noopener">萌ICP备案20252080号</a>',
+    '<a href="https://beian.mps.gov.cn/#/query/webSearch?code=13102802000493" target="_blank" rel="noreferrer noopener"><img src="https://oss.treemoe.cn/icon/ga.png" alt="">冀公网安备13102802000493号</a>',
+    '<a href="https://icp.gov.moe/?keyword=20252080" target="_blank" rel="noopener"><img src="https://oss.treemoe.cn/icon/moe.svg" alt="">萌ICP备案20252080号</a>',
     '<a href="https://moe.tmoe.cc" target="_blank" rel="noopener">网站探针</a>',
     '<a href="https://www.travellings.cn/go.html" target="_blank" rel="noopener">开往</a>',
     '<a href="/sitemap.xml">网站地图</a>',
   ].join('\n'),
 };
 
-const TEMPLATE_MAP = { 'archives.php': 'archives', 'download.php': 'download' };
+const TEMPLATE_MAP = { 'archives.php': 'archives' };
 const TYPES = { 1: 'contents', 2: 'comments', 3: 'metas', 4: 'relationships', 5: 'users', 6: 'fields' };
 const HEADER = '%TYPECHO_BACKUP_0001%';
 

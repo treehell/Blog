@@ -3,9 +3,12 @@ import '@ttqtt/liquid-glass-react/tokens.css';
 import '@ttqtt/liquid-glass-react/components.css';
 import '../styles/site.css';
 import SiteNav from '../components/SiteNav';
-import { getSite, pageUrl } from '../lib/data';
+import { getSite, pageUrl, postUrl, metaUrl, shortName, formatDate, isoDate } from '../lib/data';
+import { renderFooter, type Platform } from '../lib/footer';
 
 interface Props {
+  /** 文章目录：有就放进桌面端右栏，替代「最新文章」 */
+  toc?: { id: string; text: string; depth: number }[];
   title?: string;
   description?: string;
   /** 导航里高亮哪一项：home 或页面 slug */
@@ -19,7 +22,7 @@ interface Props {
 
 const site = await getSite();
 const o = site.options;
-const { title, description = o.description, current, image, type = 'website', preloadImage, noindex } = Astro.props;
+const { title, description = o.description, current, image, type = 'website', preloadImage, noindex, toc = [] } = Astro.props;
 const fullTitle = title ? `${title} - ${o.title}` : `${o.title} - ${o.subtitle}`;
 const canonical = new URL(Astro.url.pathname, o.site_url || Astro.site).href;
 const links = [{ key: 'home', href: '/', label: '首页' }, ...site.navPages.map((p) => ({ key: p.slug, href: pageUrl(p), label: p.title }))];
@@ -30,8 +33,17 @@ const cdnOrigin = (() => {
     return '';
   }
 })();
-const footerLinks = (o.footer_html || '').split('\n').filter(Boolean);
-const year = new Date().getFullYear();
+// 两个平台各自构建：Cloudflare（Workers Builds / Pages）会注入自己的构建变量，其余视为 EdgeOne。
+// 需要时可用构建变量 SITE_PLATFORM=cf|eo 强制指定。
+const env = (globalThis as { process?: { env: Record<string, string | undefined> } }).process?.env ?? {};
+const platform: Platform =
+  env.SITE_PLATFORM === 'cf' || env.SITE_PLATFORM === 'eo' ? env.SITE_PLATFORM : env.WORKERS_CI || env.WORKERS_CI_BUILD_UUID || env.CF_PAGES ? 'cf' : 'eo';
+const footer = renderFooter(o, platform);
+// 桌面端两侧栏的数据（窄屏不显示，但仍在 HTML 里，体积只有几 KB）
+const categories = site.categories.filter((c) => c.count);
+const tags = site.tags.filter((t) => t.count).sort((a, b) => b.count! - a.count!).slice(0, 24);
+const recent = site.posts.slice(0, 5);
+const showToc = toc.length > 2;
 ---
 
 <!doctype html>
@@ -83,12 +95,68 @@ const year = new Date().getFullYear();
     </header>
     <SiteNav client:idle links={links} current={current} />
     <script is:inline>window.__theme.apply();</script>
-    <main class="wrap">
-      <slot />
-    </main>
+    <div class="layout">
+      <aside class="side side-l" aria-label="站点信息">
+        <section class="side-card profile">
+          {o.avatar && <img src={o.avatar} alt="" width="72" height="72" loading="lazy" decoding="async" />}
+          <strong>{o.author || o.title}</strong>
+          {o.subtitle && <p>{o.subtitle}</p>}
+          <dl class="stats">
+            <div><dt>文章</dt><dd>{site.posts.length}</dd></div>
+            <div><dt>分类</dt><dd>{categories.length}</dd></div>
+            <div><dt>标签</dt><dd>{site.tags.filter((t) => t.count).length}</dd></div>
+          </dl>
+        </section>
+        {
+          categories.length > 0 && (
+            <section class="side-card">
+              <h2>分类</h2>
+              <ul class="side-list">
+                {categories.map((c) => (
+                  <li><a href={metaUrl(c)}><span>{shortName(c.name)}</span><small>{c.count}</small></a></li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+      </aside>
+      <main class="wrap">
+        <slot />
+      </main>
+      <aside class="side side-r" aria-label={showToc ? '目录' : '最新文章与标签'}>
+        {
+          showToc ? (
+            <nav class="side-card toc" aria-label="目录">
+              <h2>目录</h2>
+              {toc.map((t) => (<a href={`#${t.id}`} data-depth={t.depth}>{t.text}</a>))}
+            </nav>
+          ) : (
+            <>
+              <section class="side-card">
+                <h2>最新文章</h2>
+                <ul class="side-list side-recent">
+                  {recent.map((p) => (
+                    <li><a href={postUrl(p)}><span>{p.title}</span><time datetime={isoDate(p.created)}>{formatDate(p.created)}</time></a></li>
+                  ))}
+                </ul>
+              </section>
+              {
+                tags.length > 0 && (
+                  <section class="side-card">
+                    <h2>标签</h2>
+                    <ul class="side-tags">
+                      {tags.map((t) => (<li><a href={metaUrl(t)}>{shortName(t.name)}</a></li>))}
+                    </ul>
+                  </section>
+                )
+              }
+            </>
+          )
+        }
+      </aside>
+    </div>
     <footer class="site-footer">
-      {footerLinks.length > 0 && <div class="links" set:html={footerLinks.join('')} />}
-      <div>&copy; 2025-{year} {o.author} · <a href="/feed.xml">RSS</a></div>
+      <div class="footer-body" set:html={footer} />
       <div class="theme-switch" role="group" aria-label="外观">
         <button type="button" data-theme="auto">自动</button>
         <button type="button" data-theme="light">浅色</button>

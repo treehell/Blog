@@ -1,45 +1,22 @@
-// /api/* —— 整个后端就是这一个文件，没有任何依赖。
+// /api/* —— 整个后端就是这一个文件，没有任何依赖。由 worker/index.js 调用。
 //
-// 同一份 functions/ 同时部署到两个平台：
-//   · Cloudflare Pages：绑定了 D1（DB）和 R2（BUCKET），这里是真正处理请求的「源站」。
-//   · EdgeOne Pages：   没有这些绑定，自动进入代理模式，把 /api/* 原样转发到 API_ORIGIN（即 Cloudflare 那一份）。
-// 这样两边域名下的后台、评论、上传都能用，而数据只有一份。
+// 只在 Cloudflare Workers 上运行：它绑定了 D1（DB）和 R2（BUCKET），是唯一的数据源。
+// EdgeOne 那一侧由 edge-functions/api/[[default]].js 把 /api/* 原样转发过来，数据只有一份。
 //
 // 环境变量见 README「环境变量」一节。
 
 const SESSION_DAYS = 7;
 const MAX_UPLOAD = 25 * 1024 * 1024;
 
-export async function onRequest(context) {
-  const { request, env } = context;
-  if (!env.DB) return proxy(request, env);
+export async function handleApi(request, env, ctx) {
+  if (!env.DB) return json({ error: '未绑定 D1 数据库（DB）' }, 503);
   try {
-    return await route(context);
+    return await route({ request, env, waitUntil: (p) => ctx.waitUntil(p) });
   } catch (err) {
     if (err instanceof HttpError) return json({ error: err.message }, err.status);
     console.error(err);
     return json({ error: '服务器内部错误' }, 500);
   }
-}
-
-// ───────────────────────── 代理模式（EdgeOne） ─────────────────────────
-
-async function proxy(request, env) {
-  const origin = (env.API_ORIGIN || '').replace(/\/$/, '');
-  if (!origin) return json({ error: '未配置 API_ORIGIN（EdgeOne 侧）或未绑定 D1（Cloudflare 侧）' }, 503);
-  const url = new URL(request.url);
-  if (url.pathname === '/api/health') return json({ ok: true, mode: 'proxy', origin });
-  const headers = new Headers(request.headers);
-  headers.delete('host');
-  headers.set('x-forwarded-host', url.host);
-  if (env.PROXY_SECRET) {
-    headers.set('x-proxy-secret', env.PROXY_SECRET);
-    headers.set('x-client-ip', request.eo?.clientIp || request.headers.get('eo-connecting-ip') || '');
-  }
-  const init = { method: request.method, headers, redirect: 'manual' };
-  if (!['GET', 'HEAD'].includes(request.method)) init.body = request.body;
-  const res = await fetch(origin + url.pathname + url.search, init);
-  return new Response(res.body, { status: res.status, headers: res.headers });
 }
 
 // ───────────────────────── 路由 ─────────────────────────
@@ -56,7 +33,6 @@ async function route(ctx) {
   if (is('GET', 'export')) return json(await exportSnapshot(env));
   if (is('GET', 'comments')) return listPublicComments(env, url);
   if (is('POST', 'comments')) return createPublicComment(env, request);
-  if (is('GET', 'release')) return releaseProxy(ctx);
   if (is('POST', 'auth', 'login')) return login(env, request);
   if (is('POST', 'auth', 'logout')) return json({ ok: true }, 200, { 'set-cookie': cookie(request, '', 0) });
   if (is('GET', 'auth', 'me')) return json({ user: await currentUser(env, request) });
@@ -263,21 +239,6 @@ async function createPublicComment(env, request) {
   return json({ ok: true, status });
 }
 
-// ───────────────────────── 下载页的发布信息（带边缘缓存的转发） ─────────────────────────
-
-async function releaseProxy({ request, env, waitUntil }) {
-  const api = ((await first(env, "SELECT value FROM options WHERE name = 'download_api'"))?.value || 'https://kazumi.tmoe.cc').replace(/\/$/, '');
-  const key = new Request(new URL('/api/release', request.url).href);
-  const cache = typeof caches !== 'undefined' ? caches.default : null;
-  const hit = cache && (await cache.match(key));
-  if (hit) return hit;
-  const res = await fetch(`${api}/latest`, { headers: { 'user-agent': 'blog-release-proxy' } });
-  if (!res.ok) throw new HttpError(502, '上游接口不可用');
-  const out = new Response(await res.text(), { headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=600' } });
-  if (cache) waitUntil(cache.put(key, out.clone()));
-  return out;
-}
-
 // ───────────────────────── 后台：概要 ─────────────────────────
 
 async function stats(env) {
@@ -347,7 +308,7 @@ async function saveContent(ctx, cid, b) {
   const cover = rewriteCdn(env, str(b.cover, 500));
   const t = now();
   const created = Number.isInteger(b.created) && b.created > 0 ? b.created : t;
-  const template = type === 'page' && ['archives', 'download'].includes(b.template) ? b.template : '';
+  const template = type === 'page' && b.template === 'archives' ? b.template : '';
   const fields = [type, title, text, str(b.summary, 300), cover, status, template, Number(b.sort_order) || 0, b.allow_comment === 0 || b.allow_comment === false ? 0 : 1, created, t];
 
   if (slug) {
@@ -467,11 +428,11 @@ async function replyComment(env, user, b) {
 
 // ───────────────────────── 后台：设置 ─────────────────────────
 
-const OPTION_KEYS = ['title', 'subtitle', 'description', 'keywords', 'site_url', 'author', 'avatar', 'favicon', 'page_size', 'license', 'comment_moderation', 'footer_html', 'upload_dir', 'upload_webp', 'download_api'];
+const OPTION_KEYS = ['title', 'subtitle', 'description', 'keywords', 'site_url', 'author', 'avatar', 'favicon', 'page_size', 'license', 'comment_moderation', 'footer', 'footer_html', 'upload_dir', 'upload_webp'];
 
 async function saveOptions(env, b) {
   const stmts = OPTION_KEYS.filter((k) => b[k] !== undefined).map((k) =>
-    env.DB.prepare('INSERT INTO options (name, value) VALUES (?, ?) ON CONFLICT(name) DO UPDATE SET value = excluded.value').bind(k, String(b[k]).slice(0, 5000)),
+    env.DB.prepare('INSERT INTO options (name, value) VALUES (?, ?) ON CONFLICT(name) DO UPDATE SET value = excluded.value').bind(k, String(b[k]).slice(0, 20000)),
   );
   if (stmts.length) await env.DB.batch(stmts);
   return json({ ok: true, deployed: b.deploy === false ? null : await deploy(env) });
@@ -522,7 +483,8 @@ async function listMedia(env, url) {
   return json({
     prefix,
     folders: (res.delimitedPrefixes || []).map((p) => p.replace(/\/$/, '')),
-    objects: res.objects.map((o) => ({ key: o.key, size: o.size, uploaded: Math.floor(new Date(o.uploaded).getTime() / 1000), url: publicUrl(env, o.key) })),
+    // 以 / 结尾的是其他工具建文件夹时留下的空占位对象（如 icon/cdn/），它本身不是文件，不列出
+    objects: res.objects.filter((o) => !o.key.endsWith('/')).map((o) => ({ key: o.key, size: o.size, uploaded: Math.floor(new Date(o.uploaded).getTime() / 1000), url: publicUrl(env, o.key) })),
     cursor: res.truncated ? res.cursor : null,
   });
 }

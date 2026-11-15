@@ -12,7 +12,7 @@
     "page_size": "8",
     "license": "CC BY-NC-SA 4.0",
     "comment_moderation": "0",
-    "footer_html": "<a href=\"https://beian.miit.gov.cn/\" target=\"_blank\" rel=\"noopener\">冀ICP备2026001893号-1</a>\n<a href=\"https://beian.mps.gov.cn/#/query/webSearch?code=13102802000493\" target=\"_blank\" rel=\"noreferrer noopener\">冀公网安备13102802000493号</a>\n<a href=\"https://icp.gov.moe/?keyword=20252080\" target=\"_blank\" rel=\"noopener\">萌ICP备案20252080号</a>\n<a href=\"https://moe.tmoe.cc\" target=\"_blank\" rel=\"noopener\">网站探针</a>\n<a href=\"https://www.travellings.cn/go.html\" target=\"_blank\" rel=\"noopener\">开往</a>\n<a href=\"/sitemap.xml\">网站地图</a>"
+    "footer_html": "<a href=\"https://beian.miit.gov.cn/\" target=\"_blank\" rel=\"noopener\">冀ICP备2026001893号-1</a>\n<a href=\"https://beian.mps.gov.cn/#/query/webSearch?code=13102802000493\" target=\"_blank\" rel=\"noreferrer noopener\"><img src=\"https://oss.treemoe.cn/icon/ga.png\" alt=\"\">冀公网安备13102802000493号</a>\n<a href=\"https://icp.gov.moe/?keyword=20252080\" target=\"_blank\" rel=\"noopener\"><img src=\"https://oss.treemoe.cn/icon/moe.svg\" alt=\"\">萌ICP备案20252080号</a>\n<a href=\"https://moe.tmoe.cc\" target=\"_blank\" rel=\"noopener\">网站探针</a>\n<a href=\"https://www.travellings.cn/go.html\" target=\"_blank\" rel=\"noopener\">开往</a>\n<a href=\"/sitemap.xml\">网站地图</a>"
   },
   "contents": [
     {
@@ -296,7 +296,7 @@
       "summary": "",
       "cover": "",
       "status": "hidden",
-      "template": "download",
+      "template": "",
       "sort_order": 3,
       "allow_comment": 1,
       "created": 1775299980,

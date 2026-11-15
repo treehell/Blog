@@ -1,12 +1,12 @@
 # 树萌博客
 
-从 Typecho 迁移而来的全栈博客：静态前台 + 边缘函数后端，同一份代码同时部署到 **Cloudflare Pages** 和 **EdgeOne Pages**。
+从 Typecho 迁移而来的全栈博客：静态前台 + 边缘函数后端，同一份代码同时部署到 **Cloudflare Workers** 和 **EdgeOne Pages**。
 
 | | |
 | --- | --- |
 | 前台 | Astro 5 静态生成，正文与列表是纯 HTML；全站只有导航一处玻璃浮层 |
 | 界面 | `@ttqtt/liquid-glass-react`（前台只用 `TabBar`，后台完整使用） |
-| 后端 | `functions/api/[[default]].js`，单文件、零依赖 |
+| 后端 | `worker/api.js`，单文件、零依赖（`worker/index.js` 是 Worker 入口） |
 | 数据 | Cloudflare D1（文章 / 评论 / 设置）+ R2（图片与附件，经 CDN 域名访问） |
 | 后台 | `/admin/`，React 单页应用 |
 
@@ -15,7 +15,7 @@
 ```
 读者 ──► EdgeOne（境内） / Cloudflare（境外） ──► 静态 HTML（构建时生成）
                                    │
-                                   └─ /api/*  ──► Cloudflare Pages Functions ──► D1 / R2
+                                   └─ /api/*  ──► Cloudflare Worker ──► D1 / R2
                                         ▲
                      EdgeOne 上的 edge-functions 只做转发
 ```
@@ -37,7 +37,8 @@
 ## 目录
 
 ```
-functions/api/[[default]].js        后端（Cloudflare 用；全部接口都在这一个文件里）
+worker/index.js                     Cloudflare Worker 入口（静态资源 + /api）
+worker/api.js                       后端，全部接口都在这一个文件里
 edge-functions/api/[[default]].js   EdgeOne 用的转发函数
 db/schema.sql                       D1 表结构
 db/seed.sql                         由 Typecho 备份生成的初始数据（含评论者邮箱与 IP，已在 .gitignore 里，不进仓库；
@@ -47,6 +48,7 @@ scripts/postbuild.mjs               构建后：裁剪并内联样式，生成 _
 src/data/snapshot.json              内容快照；API 不可用时构建会退回到它
 src/lib/markdown.ts                 Markdown 渲染（含旧主题短代码），前台构建与后台预览共用
 src/pages/                          前台页面
+src/lib/footer.ts                   页脚（后台「设置 → 页脚」整段可编辑，支持 {year} {author} {title}）
 src/admin/                          后台
 wrangler.toml / edgeone.json        两个平台的配置
 ```
@@ -81,21 +83,24 @@ npm run preview
 
 ## 部署
 
-### 1. Cloudflare（先做，它是数据源）
+### 1. Cloudflare Workers（先做，它是数据源）
 
-1. 创建 D1 数据库和 R2 存储桶（沿用旧站的桶即可），把 ID 与桶名填进 `wrangler.toml`。
+1. 创建 D1 数据库和 R2 存储桶，把 ID 与桶名填进 `wrangler.toml`（已填好）。
 2. 导入数据：`npm run db:init:remote`。
-3. 把仓库推到 GitHub，在 Cloudflare Pages 里连接它。构建命令 `npm run build`，输出目录 `dist`。
-4. 在 Pages 项目的「设置」里：
-   - **绑定**：D1 → `DB`，R2 → `BUCKET`（`wrangler.toml` 已声明，核对即可）。
+3. Workers & Pages → 创建 → **Worker** → 导入 Git 仓库，选这个仓库：
+   - 构建命令 `npm run build`
+   - 部署命令 `npx wrangler deploy`
+   - 绑定（D1 → `DB`，R2 → `BUCKET`）和静态资源目录都写在 `wrangler.toml` 里，部署时自动生效。
+4. 在 Worker 的「设置」里：
    - **变量和机密**：见下表。
-   - **构建环境变量**：`CONTENT_API` = 本项目的地址（如 `https://treemoe-blog.pages.dev`）。
-5. 创建一个 Deploy Hook，记下地址。
+   - **构建 → 构建变量**：`CONTENT_API` = 本 Worker 的地址（如 `https://treemoe-blog.<子域>.workers.dev`）。
+5. 「设置 → 构建 → Deploy Hooks」创建一个钩子，记下地址。
+6. 旧的 Pages 项目确认新 Worker 正常后再删除；自定义域名要先从 Pages 项目解绑，再绑到 Worker。
 
 ### 2. EdgeOne Pages
 
 1. 连接同一个仓库。`edgeone.json` 已写好构建配置。
-2. 环境变量：`API_ORIGIN` 和 `CONTENT_API` 都填 Cloudflare Pages 的地址；`PROXY_SECRET` 与 Cloudflare 侧保持一致。
+2. 环境变量：`API_ORIGIN` 和 `CONTENT_API` 都填 Cloudflare Worker 的地址；`PROXY_SECRET` 与 Cloudflare 侧保持一致。
 3. 创建 Deploy Hook，记下地址。
 
 ### 3. 收尾
@@ -104,7 +109,7 @@ npm run preview
 
 ## 环境变量
 
-Cloudflare Pages（运行时）：
+Cloudflare Worker（运行时）：
 
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
@@ -139,7 +144,7 @@ npm run migrate -- 备份文件.dat
 
 生成 `db/seed.sql` 和 `src/data/snapshot.json`。站点标题、页脚等不在备份文件里，写在脚本顶部的 `SITE_OPTIONS`，之后可在后台「设置」里改。
 
-旧链接保持可用：`/archives/xxx.html` → `/archives/xxx/`，`/xxx.html` → `/xxx/`，`/index.php/...` 去掉前缀，`/feed` → `/feed.xml`。Cloudflare 侧是 301（`_redirects`），EdgeOne 侧由 404 页面的脚本跳转。
+旧链接保持可用：`/archives/xxx.html` → `/archives/xxx/`，`/xxx.html` → `/xxx/`，`/index.php/...` 去掉前缀，`/feed` → `/feed.xml`。Cloudflare 侧是 301（Workers 静态资源的 `_redirects`），EdgeOne 侧由 404 页面的脚本跳转。
 
 未迁移的内容：后台账号密码（改用环境变量）、OwO 表情（`:$(...)` 按原文显示）、Typecho 插件。
 

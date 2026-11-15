@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS contents (
   summary       TEXT    NOT NULL DEFAULT '',          -- 摘要（Typecho 自定义字段 desc）
   cover         TEXT    NOT NULL DEFAULT '',          -- 封面（Typecho 自定义字段 img）
   status        TEXT    NOT NULL DEFAULT 'draft',     -- publish | draft | hidden
-  template      TEXT    NOT NULL DEFAULT '',          -- 独立页面模板：'' | archives | download
+  template      TEXT    NOT NULL DEFAULT '',          -- 独立页面模板：'' | archives
   sort_order    INTEGER NOT NULL DEFAULT 0,           -- 独立页面在导航里的顺序
   allow_comment INTEGER NOT NULL DEFAULT 1,
   created       INTEGER NOT NULL,                     -- unix 秒

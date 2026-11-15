@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { GlassButton, GlassSwitch, Text, TextField, useToast } from '@ttqtt/liquid-glass-react';
 import { api, deployMessage, useData, type DeployResult } from './api';
 import { PageHead } from './ui';
+import { defaultFooter } from '../lib/footer';
 
 interface Payload {
   options: Record<string, string>;
@@ -87,7 +88,13 @@ export default function Settings({ user, onLogout }: { user: string; onLogout: (
           {TEXT_FIELDS.map(([k, label, hint]) => (
             <TextField key={k} label={label} hint={hint} value={o[k] ?? ''} onChange={(e) => set(k, e.target.value)} />
           ))}
-          <TextField label="页脚链接（每行一个 <a> 标签）" multiline rows={6} value={o.footer_html ?? ''} onChange={(e) => set('footer_html', e.target.value)} hint="备案号等，原样输出为 HTML" />
+        </Section>
+
+        <Section header="页脚" footer="整段原样输出为 HTML。可用占位符：{year} 当前年份、{author} 作者名、{title} 站点名称、{cdn} 当前访问线路（Cloudflare / EdgeOne）的徽标。图标放进 <a> 里就会和文字成为一个整体；外观切换按钮固定在最下方，不在此处。">
+          <TextField label="页脚 HTML" multiline rows={10} value={o.footer || defaultFooter(o)} onChange={(e) => set('footer', e.target.value)} />
+          <Row label="恢复默认" description="用旧的页脚链接重新生成一份">
+            <GlassButton type="button" variant="gray" onClick={() => set('footer', defaultFooter({ ...o, footer: '' }))}>恢复</GlassButton>
+          </Row>
         </Section>
 
         <Section header="评论" footer="">
@@ -100,11 +107,9 @@ export default function Settings({ user, onLogout }: { user: string; onLogout: (
           <TextField label="上传目录" value={o.upload_dir ?? ''} placeholder="img" onChange={(e) => set('upload_dir', e.target.value)} hint="R2 里的顶层目录，默认 img" />
           <Row label="上传前转为 WebP" description="PNG / JPEG 在浏览器里转成 WebP 再上传（转完更大则保留原图）">
             <GlassSwitch aria-label="上传前转为 WebP" checked={o.upload_webp !== '0'} onCheckedChange={(on) => set('upload_webp', on ? '1' : '0')} />
-          </Row>
-          <TextField label="下载页数据接口" value={o.download_api ?? ''} placeholder="https://kazumi.tmoe.cc" onChange={(e) => set('download_api', e.target.value)} hint="「发布下载页」模板读取 {接口}/latest" />
-        </Section>
+          </Row>        </Section>
 
-        <Section header="运行环境（只读）" footer="这些在 Cloudflare Pages 的「变量和机密 / 绑定」里配置，改完需重新部署。">
+        <Section header="运行环境（只读）" footer="这些在 Cloudflare Worker 的「设置 → 变量和机密 / 绑定」里配置，改完需重新部署。">
           <Row label="R2 存储桶（BUCKET）" description="">{env.r2 ? '已绑定' : '未绑定'}</Row>
           <Row label="CDN 域名（CDN_BASE）" description="">{env.cdnBase || '未设置'}</Row>
           <Row label="自动替换的 R2 原始域名（R2_PUBLIC_HOSTS）" description="">{env.r2Hosts.length ? env.r2Hosts.join('、') : '未设置'}</Row>

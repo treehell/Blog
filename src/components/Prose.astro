@@ -48,7 +48,7 @@ const { html } = Astro.props;
 
   // 目录跟随高亮
   const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a')];
-  if (links.length && matchMedia('(min-width: 1240px)').matches) {
+  if (links.length && matchMedia('(min-width: 1200px)').matches) {
     const map = new Map(links.map((a) => [decodeURIComponent(a.hash.slice(1)), a]));
     const io = new IntersectionObserver(
       (entries) => {

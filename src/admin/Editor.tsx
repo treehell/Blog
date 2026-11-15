@@ -33,7 +33,6 @@ const STATUS = [
 const TEMPLATES = [
   { value: '', label: '默认（Markdown 正文）' },
   { value: 'archives', label: '归档时间线' },
-  { value: 'download', label: '发布下载页' },
 ];
 
 const toLocal = (ts: number) => {

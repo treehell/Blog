@@ -156,15 +156,42 @@ details[open] > summary::after { transform: rotate(45deg); }
 .neighbors small { color: var(--lg-label-tertiary); font-weight: var(--lg-weight-regular); }
 .neighbors .next { text-align: end; }
 
-/* 目录：只在够宽时出现在正文右侧 */
-.toc { display: none; }
-@media (min-width: 1240px) {
-  .toc { display: block; position: fixed; top: 96px; left: calc(50% + 400px); width: 200px; max-height: calc(100vh - 140px); overflow-y: auto; font-size: var(--lg-text-footnote-size); }
-  .toc strong { display: block; margin-bottom: 8px; color: var(--lg-label-tertiary); font-weight: var(--lg-weight-semibold); }
-  .toc a { display: block; padding: 4px 0 4px 12px; border-inline-start: 2px solid var(--lg-separator); color: var(--lg-label-secondary); line-height: 1.45; }
-  .toc a[data-depth='3'] { padding-inline-start: 24px; }
-  .toc a:hover, .toc a.on { color: var(--lg-label); border-color: var(--lg-accent); text-decoration: none; }
+/* ---------- 桌面三栏：左 个人卡片 + 分类，中 正文，右 目录 / 最新文章 + 标签 ----------
+   窄于 1200px 时两侧栏不显示，版式与手机一致。侧栏是不透明卡片，玻璃仍只留给导航。 */
+.side { display: none; }
+@media (min-width: 1200px) {
+  .layout { display: grid; grid-template-columns: minmax(220px, 264px) minmax(0, 760px) minmax(220px, 264px); justify-content: center; align-items: start; gap: 28px; padding-inline: 28px; }
+  .layout > .wrap { padding-inline: 0; }
+  .side { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 72px; max-height: calc(100vh - 88px); overflow-y: auto; padding-block: 28px 8px; scrollbar-width: none; }
+  .side::-webkit-scrollbar { display: none; }
+  .site-header .brand { visibility: hidden; } /* 左栏已有头像与名字 */
+  .hero .chips { display: none; } /* 分类已在左栏 */
 }
+.side-card { padding: 16px 18px; border-radius: var(--lg-radius-l); background: var(--lg-bg-grouped-2); font-size: var(--lg-text-subhead-size); line-height: 1.5; }
+.side-card h2 { margin: 0 0 8px; color: var(--lg-label-secondary); font-size: var(--lg-text-footnote-size); font-weight: var(--lg-weight-semibold); letter-spacing: 0.02em; }
+.profile { display: flex; flex-direction: column; align-items: center; padding-block: 22px 16px; text-align: center; }
+.profile img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; background: var(--lg-fill-tertiary); }
+.profile strong { margin-top: 10px; font-size: var(--lg-text-title3-size); font-weight: var(--lg-weight-semibold); line-height: 1.3; }
+.profile p { margin: 4px 0 0; color: var(--lg-label-secondary); font-size: var(--lg-text-footnote-size); }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--lg-separator); }
+.stats dt { color: var(--lg-label-tertiary); font-size: var(--lg-text-caption1-size); }
+.stats dd { margin: 0; font-size: var(--lg-text-headline-size); font-weight: var(--lg-weight-semibold); font-variant-numeric: tabular-nums; }
+.side-list { margin: 0 -10px; padding: 0; list-style: none; }
+.side-list a { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 6px 10px; border-radius: var(--lg-radius-s); color: var(--lg-label); }
+.side-list a:hover { background: var(--lg-fill-quaternary); text-decoration: none; }
+.side-list small { color: var(--lg-label-tertiary); font-size: var(--lg-text-footnote-size); font-variant-numeric: tabular-nums; }
+.side-recent a { flex-direction: column; gap: 0; }
+.side-recent span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.side-recent time { color: var(--lg-label-tertiary); font-size: var(--lg-text-caption1-size); }
+.side-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.side-tags a { display: inline-block; padding: 2px 10px; border-radius: var(--lg-radius-capsule); background: var(--lg-fill-tertiary); color: var(--lg-label-secondary); font-size: var(--lg-text-footnote-size); }
+.side-tags a:hover { background: var(--lg-fill-secondary); color: var(--lg-label); text-decoration: none; }
+
+/* 目录（右栏） */
+.toc { font-size: var(--lg-text-footnote-size); }
+.toc a { display: block; padding: 4px 0 4px 12px; border-inline-start: 2px solid var(--lg-separator); color: var(--lg-label-secondary); line-height: 1.45; }
+.toc a[data-depth='3'] { padding-inline-start: 24px; }
+.toc a:hover, .toc a.on { color: var(--lg-label); border-color: var(--lg-accent); text-decoration: none; }
 
 /* ---------- 归档时间线 ---------- */
 .timeline { margin: 0; padding: 0; list-style: none; }
@@ -198,19 +225,18 @@ textarea.input { min-height: 110px; resize: vertical; line-height: 1.6; }
 .form-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--lg-label-tertiary); font-size: var(--lg-text-footnote-size); }
 .hp { position: absolute; left: -9999px; }
 
-/* ---------- 下载页模板 ---------- */
-.dl-filter { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
-.dl-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; }
-.dl-item .name { flex: 1; min-width: 0; font-weight: var(--lg-weight-medium); overflow-wrap: anywhere; line-height: 1.4; }
-.dl-item small { display: block; color: var(--lg-label-tertiary); font-weight: var(--lg-weight-regular); }
-
 /* ---------- 页脚 ---------- */
-.site-footer { margin-top: 40px; padding: 24px var(--lg-margin) 28px; color: var(--lg-label-tertiary); font-size: var(--lg-text-footnote-size); text-align: center; line-height: 2; }
+/* 内容整段来自后台「设置 → 页脚」，按普通行内文字排版：间距由 HTML 本身决定 */
+.site-footer { margin-top: 40px; padding: 24px var(--lg-margin) 28px; color: var(--lg-label-tertiary); font-size: 14px; text-align: center; line-height: 1.9; }
+@media (min-width: 768px) { .site-footer { font-size: var(--lg-text-subhead-size); } }
+.footer-body p { margin: 0; }
 .site-footer a { color: var(--lg-label-secondary); }
-.site-footer .links { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0 16px; }
-/* 页脚里的小图标（如公安备案徽标）：高度跟随文字，宽度按原图比例；并贴近它后面的那个链接 */
-.site-footer img { height: 1em; width: auto; flex: none; vertical-align: -0.125em; }
-.site-footer .links img { margin-inline-end: -12px; }
+/* 链接不在中间断行：图标和它后面的文字始终在一起 */
+.footer-body a { white-space: nowrap; }
+/* 小图标（如公安备案徽标）：高度跟随文字，宽度按原图比例 */
+.site-footer img { height: 1em; width: auto; margin-inline-end: 0.2em; vertical-align: -0.125em; }
+/* 线路徽标（shields 样式，原图 20px 高）保持原尺寸，否则字太小看不清 */
+.site-footer .cdn-badge { height: 20px; margin: 0 0.15em; vertical-align: middle; }
 .theme-switch { display: inline-flex; gap: 2px; margin-top: 8px; padding: 2px; border-radius: var(--lg-radius-capsule); background: var(--lg-fill-tertiary); }
 .theme-switch button { min-height: 30px; padding: 0 12px; border: 0; border-radius: var(--lg-radius-capsule); background: none; color: var(--lg-label-secondary); font: inherit; cursor: pointer; }
 .theme-switch button[aria-pressed='true'] { background: var(--lg-bg-grouped-2); color: var(--lg-label); }
@@ -225,6 +251,6 @@ textarea.input { min-height: 110px; resize: vertical; line-height: 1.6; }
   @view-transition { navigation: none; }
 }
 @media print {
-  .lg-tabbar, .site-footer, .comments, .toc, .neighbors { display: none; }
+  .lg-tabbar, .site-footer, .comments, .side, .neighbors { display: none; }
   body { background: #fff; }
 }
