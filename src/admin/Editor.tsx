@@ -188,7 +188,7 @@ export default function Editor({ type, cid }: { type: 'post' | 'page'; cid: numb
   function remove() {
     ask({
       title: `删除这篇${noun}？`,
-      message: '它的评论也会一并删除，此操作无法撤销。',
+      message: '删除后无法恢复。',
       onConfirm: async () => {
         try {
           await api(`/admin/contents/${cid}`, { method: 'DELETE' });
@@ -298,9 +298,7 @@ export default function Editor({ type, cid }: { type: 'post' | 'page'; cid: numb
               <input type="file" accept="image/*" hidden onChange={(e) => { uploadCover(e.target.files?.[0]); e.target.value = ''; }} />
               <span>上传封面到 R2</span>
             </label>
-            <TextField label="摘要" multiline rows={3} value={draft.summary} onChange={(e) => set('summary', e.target.value)} hint="显示在列表卡片与搜索结果里" />
-            <GlassSwitch aria-label="允许评论" label="允许评论" checked={draft.allow_comment === 1} onCheckedChange={(on) => set('allow_comment', on ? 1 : 0)} />
-          </div>
+            <TextField label="摘要" multiline rows={3} value={draft.summary} onChange={(e) => set('summary', e.target.value)} hint="显示在列表卡片与搜索结果里" />          </div>
 
           {cid !== null && <GlassButton variant="destructive" onClick={remove}>删除这篇{noun}</GlassButton>}
         </aside>

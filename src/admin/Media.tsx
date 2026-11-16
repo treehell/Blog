@@ -19,6 +19,15 @@ interface Listing {
 
 const isImage = (key: string) => /\.(webp|png|jpe?g|gif|avif|svg|ico)$/i.test(key);
 
+// 线条图标（lucide 的 folder / file），颜色跟随次要文字
+const svg = { width: 28, height: 28, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true } as const;
+const FolderIcon = () => (
+  <svg {...svg}><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /></svg>
+);
+const FileIcon = () => (
+  <svg {...svg}><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /></svg>
+);
+
 export default function Media() {
   const toast = useToast();
   const [ask, dialog] = useConfirm();
@@ -104,14 +113,14 @@ export default function Media() {
       <div className="media-grid">
         {folders.map((f) => (
           <button type="button" key={f} className="media-item media-folder" onClick={() => setPrefix(f)}>
-            <span className="media-thumb" aria-hidden="true">📁</span>
+            <span className="media-thumb" aria-hidden="true"><FolderIcon /></span>
             <span className="media-name">{f.split('/').pop()}</span>
           </button>
         ))}
         {objects.map((o) => (
           <div key={o.key} className="media-item">
             <button type="button" className="media-thumb" onClick={() => copy(o)} title="点击复制地址">
-              {isImage(o.key) ? <img src={o.url} alt="" loading="lazy" decoding="async" /> : <span aria-hidden="true">📄</span>}
+              {isImage(o.key) ? <img src={o.url} alt="" loading="lazy" decoding="async" /> : <FileIcon />}
             </button>
             <span className="media-name" title={o.key}>{o.key.split('/').pop()}</span>
             <span className="muted-inline">{fmtSize(o.size)} · {fmtTime(o.uploaded).slice(0, 10)}</span>

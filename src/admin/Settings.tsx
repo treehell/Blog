@@ -97,12 +97,6 @@ export default function Settings({ user, onLogout }: { user: string; onLogout: (
           </Row>
         </Section>
 
-        <Section header="评论" footer="">
-          <Row label="评论需要审核" description="开启后，新评论要在后台通过才会显示">
-            <GlassSwitch aria-label="评论需要审核" checked={o.comment_moderation === '1'} onCheckedChange={(on) => set('comment_moderation', on ? '1' : '0')} />
-          </Row>
-        </Section>
-
         <Section header="上传" footer="上传的文件存入 R2，按「目录/年/月/文件名-内容哈希」命名；返回并插入正文的是 CDN 域名下的地址。">
           <TextField label="上传目录" value={o.upload_dir ?? ''} placeholder="img" onChange={(e) => set('upload_dir', e.target.value)} hint="R2 里的顶层目录，默认 img" />
           <Row label="上传前转为 WebP" description="PNG / JPEG 在浏览器里转成 WebP 再上传（转完更大则保留原图）">

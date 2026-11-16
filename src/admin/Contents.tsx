@@ -66,7 +66,7 @@ function ContentList({ type }: { type: string }) {
               <ListRow
                 key={r.cid}
                 label={r.title || '（无标题）'}
-                secondaryLabel={[type === 'post' ? r.categories.map((c) => c.split('-')[0]).join('、') : r.template ? `模板：${r.template}` : `顺序 ${r.sort_order}`, fmtTime(r.created), `/${type === 'post' ? 'archives/' : ''}${r.slug}/`, r.comments ? `${r.comments} 评论` : '']
+                secondaryLabel={[type === 'post' ? r.categories.map((c) => c.split('-')[0]).join('、') : r.template ? `模板：${r.template}` : `顺序 ${r.sort_order}`, fmtTime(r.created), `/${type === 'post' ? 'archives/' : ''}${r.slug}/`]
                   .filter(Boolean)
                   .join(' · ')}
                 value={r.status === 'publish' ? undefined : STATUS_LABEL[r.status]}

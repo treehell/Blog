@@ -102,7 +102,7 @@ function Login({ onDone }: { onDone: (user: string) => void }) {
   return (
     <form className="admin-login" onSubmit={submit}>
       <Text variant="title1" as="h1" emphasized>博客后台</Text>
-      <Text tone="secondary" as="p">登录后管理文章、评论与媒体文件</Text>
+      <Text tone="secondary" as="p">登录后管理文章与媒体文件</Text>
       <TextField label="用户名" name="user" autoComplete="username" required autoFocus />
       <TextField label="密码" name="password" type="password" autoComplete="current-password" required error={error || undefined} />
       <GlassButton type="submit" variant="glassProminent" controlSize="large" loading={busy}>登录</GlassButton>
